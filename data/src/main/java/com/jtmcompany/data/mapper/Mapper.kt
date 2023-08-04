@@ -18,12 +18,40 @@ object Mapper {
     fun mapperToParkInfo(parkInfos: List<ParkInfoEntity>): List<ParkInfo> {
         return parkInfos.map {
             ParkInfo(
-                it.id,
-                it.name,
-                it.address,
-                it.latitude,
-                it.longtitude,
-                it.area
+                it.prkplceNo, // 주차장관리번호
+                it.prkplceNm, // 주차장명
+                it.prkplceSe, // 주차장구분
+                it.prkplceType, // 주차장유형
+                it.rdnmadr, // 소재지도로명주소
+                it.lnmadr, // 소재지지번주소
+                it.prkcmprt, // 주차구획수
+                it.feedingSe, // 급지구분
+                it.enforceSe, // 부제시행구분
+                it.operDay, // 운영요일
+                it.weekdayOperOpenHhmm, // 평일운영시작시
+                it.weekdayOperColseHhmm, // 평일운영종료
+                it.satOperOperOpenHhmm, // 토요일운영시작
+                it.satOperCloseHhmm, // 토요일운영종료시각
+                it.holidayOperOpenHhmm, // 공휴일운영시작
+                it.holidayCloseOpenHhmm, // 공휴일운영종
+                it.parkingchrgeInfo, // 요금정보
+                it.basicTime, // 주차기본시간
+                it.basicCharge, // 주차기본요금
+                it.addUnitTime, // 추가단위시간
+                it.addUnitCharge, // 추가단위요금
+                it.dayCmmtktAdjTime, // 1일주차권요금적용시
+                it.dayCmmtkt, // 1일주차권요금
+                it.monthCmmtkt, // 월정기권요금
+                it.metpay, // 결제방법
+                it.spcmnt, // 특기사항
+                it.institutionNm, // 관리기관명
+                it.phoneNumber, // 전화번호
+                it.latitude, // 위도
+                it.longitude, // 경도
+                it.referenceDate, // 데이터기준일자
+                it.instt_code, // 제공기관코드
+                it.instt_nm, // 제공기관기관명
+                it.distance // 나와의 거리
             )
         }
     }

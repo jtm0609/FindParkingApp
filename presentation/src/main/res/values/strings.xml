@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Parking Application</string>
+    <string name="no_result_msg">검색 결과가 없습니다.</string>
+    <string name="not_connectied_network">네트워크 연결을 확인해주세요.</string>
+    <string name="api_success_msg">SUCCESS</string>
+    <string name="api_error_msg">ERROR</string>
+    <string name="btn_search_msg">Search</string>
 </resources>
