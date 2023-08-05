@@ -1,12 +1,15 @@
 package com.jtmcompany.data.data.response
 
-import com.google.gson.annotations.SerializedName
-import com.jtmcompany.data.data.entity.BodyEntity
-import com.jtmcompany.data.data.entity.HeaderEntity
-import com.jtmcompany.data.data.entity.ParkInfoEntity
-import com.jtmcompany.data.data.entity.ResponseEntity
-import com.jtmcompany.domain.model.ParkInfo
+import com.jtmcompany.data.data.entity.BodyData
+import com.jtmcompany.data.data.entity.HeaderData
+import com.tickaroo.tikxml.annotation.Element
+import com.tickaroo.tikxml.annotation.Xml
 
+@Xml(name = "response")
 data class ParkInfoResponse( //주자장 시설정보
-    val response: ResponseEntity
+    //val response: ResponseEntity
+    @Element(name = "header")
+    val header: HeaderData,
+    @Element(name = "body")
+    val body: BodyData
 )

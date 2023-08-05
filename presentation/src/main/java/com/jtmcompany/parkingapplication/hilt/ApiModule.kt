@@ -8,6 +8,8 @@ import com.jtmcompany.data.api.ApiClient
 import com.jtmcompany.data.api.ApiInterface
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.BuildConfig
+import com.tickaroo.tikxml.TikXml
+import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +19,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 import javax.inject.Singleton
@@ -39,11 +40,13 @@ object ApiModule {
             .setLenient()
             .create()
 
+        val parser = TikXml.Builder().exceptionOnUnreadXml(false).build()
+
         return Retrofit.Builder()
             .baseUrl(ApiClient.BASE_URL)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // Rx도 사용하기 때문에 추가 필요.
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(TikXmlConverterFactory.create(parser))
             .build()
     }
 

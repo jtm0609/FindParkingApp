@@ -19,8 +19,8 @@ class ParkRemoteDataSourceImpl @Inject constructor(
     private val context: Context
 ) :
     ParkRemoteDataSource {
-    override fun getParkInfo(): Single<ParkInfoResponse> {
-        return apiInterface.getParkInfoApi(context.getString(R.string.api_key),1,2,"json")
+    override fun getParkInfo(numOfRows: Int): Single<ParkInfoResponse> {
+        return apiInterface.getParkInfoApi(context.getString(R.string.api_key),1,numOfRows)
     }
 
     override fun getParkOperInfo(): Single<ParkOperInfoResponse> {

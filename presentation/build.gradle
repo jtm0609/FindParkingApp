@@ -50,6 +50,7 @@ android {
 def rxJavaVersion ='2.1.1'
 def retrofitVersion = '2.3.0'
 def hiltVersion = '2.35'
+def roomVersion = "2.4.2"
 dependencies {
     //multi module
     implementation project(':domain')
@@ -85,4 +86,24 @@ dependencies {
 
     // Logger
     implementation 'com.orhanobut:logger:2.2.0'
+
+    // 카카오 Map sdk
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/libDaumMapAndroid.jar')
+
+    //xml parser
+    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
+    implementation 'com.tickaroo.tikxml:core:0.8.13'
+    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
+    kapt 'com.tickaroo.tikxml:processor:0.8.13'
+
+    //lottie
+    implementation 'com.airbnb.android:lottie:3.5.0'
+
+    // Room
+    implementation "androidx.room:room-runtime:$roomVersion"
+    implementation "androidx.room:room-rxjava2:$roomVersion"
+    testImplementation "androidx.room:room-testing:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
 }

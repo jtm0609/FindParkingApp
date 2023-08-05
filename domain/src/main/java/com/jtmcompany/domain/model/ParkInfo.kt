@@ -41,6 +41,6 @@ data class ParkInfo (
     var instt_code: String?, // 제공기관코드
     var instt_nm: String?, // 제공기관기관명
 
-
+    var totalCnt: String,
     var distance: Double = 0.0 // 나와의 거리
 )

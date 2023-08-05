@@ -1,6 +1,6 @@
 package com.jtmcompany.data.data.entity
 
 data class ResponseEntity (
-    val header: HeaderEntity,
-    val body: BodyEntity
+    val header: HeaderData,
+    val body: BodyData
 )

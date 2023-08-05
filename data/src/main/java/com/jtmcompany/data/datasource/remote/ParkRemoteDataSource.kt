@@ -9,7 +9,7 @@ import io.reactivex.Single
  * DataSourceInpl 에서 구현된다.
  */
 interface ParkRemoteDataSource {
-    fun getParkInfo() : Single<ParkInfoResponse>
+    fun getParkInfo(numOfRows: Int) : Single<ParkInfoResponse>
 
     fun getParkOperInfo(): Single<ParkOperInfoResponse>
 }

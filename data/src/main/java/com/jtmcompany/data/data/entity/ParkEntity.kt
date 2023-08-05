@@ -1,0 +1,96 @@
+package com.jtmcompany.data.data.entity
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
+
+/**
+ * Park Data Class
+ * Response 에서 받아온 Data 중 Object 인 경우 해당 Entity 를 선언하여 데이터를 받는다.
+ * Park data class 는 MovieResponse 에서 items 로 가져온 movies 데이터를 park 라는 table 을 생성 후 해당 테이블에 저장시킨다.
+ *
+ * Entity : 변경이 되서는 안되는 Data Class. 가장 기본이 되는 Data Class 로 Api 에서 내려오는 데이터 형식이 바뀌어도 Entity 는 영향이 없도록 해야한다.
+ *          즉, ParkEntity 로 명명을 해두었지만, 변경 가능성이 높은 API 같은 경우에는 Entity 가 아니라 DTO 라고 생각해야 한다.
+ *          DB 입장에서는 해당 값들이 변경되면 안되는 값들이기 때문에 Entity 로 어노테이션을 선언하여 사용한다.
+ * DTO : 변경이 쉽게 가능한 Data Class.
+ *        데이터 형태나 구조가 바뀔 수 있는 경우 사용하는 Data Class. DTO 를 가공하여 Entity 에 넣어 사용하기 때문에, 실제로 사용하는
+ *        데이터가 변경되지 않는 이상 다른 구조에 영향이 없다.
+ **/
+
+@Entity(tableName = "park")
+data class ParkEntity (
+    @PrimaryKey(autoGenerate = true)
+    val no: Long,
+    @SerializedName("prkplceNo")
+    var prkplceNo: String?, // 주차장관리번호
+    @SerializedName("prkplceNm")
+    var prkplceNm: String?, // 주차장명
+    @SerializedName("prkplceSe")
+    var prkplceSe: String?, // 주차장구분
+    @SerializedName("prkplceType")
+    var prkplceType: String?, // 주차장유형
+    @SerializedName("rdnmadr")
+    var rdnmadr: String?, // 소재지도로명주소
+    @SerializedName("lnmadr")
+    var lnmadr: String?, // 소재지지번주소
+    @SerializedName("prkcmprt")
+    var prkcmprt: String?, // 주차구획수
+    @SerializedName("feedingSe")
+    var feedingSe: String?, // 급지구분
+    @SerializedName("enforceSe")
+    var enforceSe: String?, // 부제시행구분
+    @SerializedName("operDay")
+    var operDay: String?, // 운영요일
+    @SerializedName("weekdayOperOpenHhmm")
+    var weekdayOperOpenHhmm: String?, // 평일운영시작시각
+    @SerializedName("weekdayOperColseHhmm")
+    var weekdayOperColseHhmm: String?, // 평일운영종료시각
+    @SerializedName("satOperOperOpenHhmm")
+    var satOperOperOpenHhmm: String?, // 토요일운영시작시각
+    @SerializedName("satOperCloseHhmm")
+    var satOperCloseHhmm: String?, // 토요일운영종료시각
+    @SerializedName("holidayOperOpenHhmm")
+    var holidayOperOpenHhmm: String?, // 공휴일운영시작시각
+    @SerializedName("holidayCloseOpenHhmm")
+    var holidayCloseOpenHhmm: String?, // 공휴일운영종료시각
+    @SerializedName("parkingchrgeInfo")
+    var parkingchrgeInfo: String?, // 요금정보
+    @SerializedName("basicTime")
+    var basicTime: String?, // 주차기본시간
+    @SerializedName("basicCharge")
+    var basicCharge: String?, // 주차기본요금
+    @SerializedName("addUnitTime")
+    var addUnitTime: String?, // 추가단위시간
+    @SerializedName("addUnitCharge")
+    var addUnitCharge: String?, // 추가단위요금
+    @SerializedName("dayCmmtktAdjTime")
+    var dayCmmtktAdjTime: String?, // 1일주차권요금적용시간
+    @SerializedName("dayCmmtkt")
+    var dayCmmtkt: String?, // 1일주차권요금
+    @SerializedName("monthCmmtkt")
+    var monthCmmtkt: String?, // 월정기권요금
+    @SerializedName("metpay")
+    var metpay: String?, // 결제방법
+    @SerializedName("spcmnt")
+    var spcmnt: String?, // 특기사항
+    @SerializedName("institutionNm")
+    var institutionNm: String?, // 관리기관명
+    @SerializedName("phoneNumber")
+    var phoneNumber: String?, // 전화번호
+    @SerializedName("latitude")
+    var latitude: String?, // 위도
+    @SerializedName("longitude")
+    var longitude: String?, // 경도
+    @SerializedName("referenceDate")
+    var referenceDate: String?, // 데이터기준일자
+    @SerializedName("instt_code")
+    var instt_code: String?, // 제공기관코드
+    @SerializedName("instt_nm")
+    var instt_nm: String?, // 제공기관기관명
+
+    @SerializedName("totalCount")
+    var totalCount: String, // 나와의 거리
+    @SerializedName("distance")
+    var distance: Double = 0.0 // 나와의 거리
+)
+

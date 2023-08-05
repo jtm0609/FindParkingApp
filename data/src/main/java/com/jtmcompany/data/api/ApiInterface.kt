@@ -16,8 +16,8 @@ interface ApiInterface {
         @Query("serviceKey", encoded = true) serviceKey: String,
         @Query("pageNo") pageNo: Int,
         @Query("numOfRows") numOfRows: Int,
-        @Query("type") type: String
     ): Single<ParkInfoResponse>
+
 
     @GET("PrkOprInfo")
     fun getParkOperInfoApi(): Single<ParkOperInfoResponse>
