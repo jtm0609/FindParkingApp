@@ -9,4 +9,28 @@
     <string name="btn_search_msg">Search</string>
     <string name="msg_location_not_permission">위치 권한이 없습니다.</string>
     <string name="msg_parking_loading">주차장 정보를 불러오고 있습니다.</string>
+    <string name="msg_search">검색</string>
+    <string name="msg_search_result">검색결과 또는 주차장이 없습니다.</string>
+
+    <string-array name="parking_lot_section">
+        <item>주차장구분</item>
+        <item>공영</item>
+        <item>민영</item>
+    </string-array>
+
+    <string-array name="parking_lot_type">
+        <item>주차장유형</item>
+        <item>노외</item>
+        <item>노상</item>
+        <item>부설</item>
+    </string-array>
+
+    <string-array name="parking_charge_info">
+        <item>요금정보</item>
+        <item>무료</item>
+        <item>유료</item>
+        <item>혼합</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

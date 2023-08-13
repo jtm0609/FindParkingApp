@@ -21,7 +21,10 @@ abstract class BaseActivity<B : ViewDataBinding>(
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
         binding.lifecycleOwner = this
+    }
 
+    override fun onResume() {
+        super.onResume()
         if(!checkPermission()){
             requestPermissions(
                 arrayOf(

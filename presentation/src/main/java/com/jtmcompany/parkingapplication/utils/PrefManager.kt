@@ -27,5 +27,17 @@ object PrefManager {
         return prefs.getInt(key, DEFAULT_VALUE_INT)
     }
 
+    fun setBoolean(context: Context, key: String, value: Boolean) {
+        val prefs = getPreferences(context)
+        val editor = prefs.edit()
+        editor.putBoolean(key, value)
+        editor.commit()
+    }
+
+    fun getBoolean(context: Context, key: String): Boolean {
+        val prefs = getPreferences(context)
+        return prefs.getBoolean(key, DEFAULT_VALUE_BOOLEAN);
+    }
+
 
 }

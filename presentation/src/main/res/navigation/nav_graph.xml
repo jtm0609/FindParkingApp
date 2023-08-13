@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/parkLocationFragment">
+
+
+    <fragment
+        android:id="@+id/parkLocationFragment"
+        android:name="com.jtmcompany.parkingapplication.view.fragment.ParkLocationFragment"
+
+        tools:layout="@layout/fragment_park_location">
+        <action
+            android:id="@+id/action_parkLocationFragment_to_parkSearchFragment"
+            app:destination="@id/parkSearchFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.jtmcompany.parkingapplication.view.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_parkLocationFragment"
+            app:destination="@id/parkLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parkSearchFragment"
+        android:name="com.jtmcompany.parkingapplication.view.fragment.ParkSearchFragment"
+
+        tools:layout="@layout/fragment_park_search"/>
+
+</navigation>
