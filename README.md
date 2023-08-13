@@ -2,7 +2,8 @@
 - MVVM
 - Kotlin
 - RxKoltin
-- Hilt
 - Retrofit
-
-
+- Hilt
+- Room 
+- Navigation Component
+- Lottie
