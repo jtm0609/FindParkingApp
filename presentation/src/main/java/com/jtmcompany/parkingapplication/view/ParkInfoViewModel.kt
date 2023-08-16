@@ -45,6 +45,7 @@ class ParkInfoViewModel @Inject constructor(
     private val _toastMsg = MutableLiveData<MessageSet>()
     val toastMsg: LiveData<MessageSet> get() = _toastMsg
 
+
     fun requestParkInfo(numOfRows: Int) {
         if (!networkManager.checkNetworkState()) {
             _toastMsg.value = MessageSet.NETWORK_NOT_CONNECTED

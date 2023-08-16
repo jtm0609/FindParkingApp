@@ -2,21 +2,32 @@ package com.jtmcompany.parkingapplication.view.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkLocationBinding
+import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LATITUDE
+import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.utils.PrefManager
 import com.jtmcompany.parkingapplication.view.ParkInfoViewModel
+import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
-class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.fragment_park_location),
-    View.OnClickListener {
+class ParkLocationFragment :
+    BaseFragment<FragmentParkLocationBinding>(R.layout.fragment_park_location),
+    View.OnClickListener, MapView.CurrentLocationEventListener {
 
     private val viewModel: ParkInfoViewModel by activityViewModels()
     private lateinit var mapView: MapView
+
+    //현재 사용자의 위치(위도)
+    private var curLatitude: Double = 0.0;
+
+    //현재 사용자의 위치(위도)
+    private var curLongitude: Double = 0.0;
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -29,7 +40,7 @@ class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.
         viewModel.requestParkInfo(1)
     }
 
-    private fun intLayout(){
+    private fun intLayout() {
         binding.layoutSearch.setOnClickListener(this)
     }
 
@@ -43,10 +54,6 @@ class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.
                 PrefManager.setInt(mContext, "park_total_cnt", apiTotalCnt)
                 viewModel.requestParkInfo(apiTotalCnt)
             }
-            //변경 안되었다면 DB로 부터 불러오기
-            else {
-                viewModel.requestLocalPark()
-            }
         })
 
         //서버로부터 주차장 정보 가져오기
@@ -55,10 +62,6 @@ class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.
             viewModel.insertLocalPark(it)
         })
 
-        //DB로부터 주차장 정보 가져오기
-        viewModel.parkLocalList.observe(this, Observer {
-            //추후 작성
-        })
     }
 
     private fun initViewModelCallback() {
@@ -66,18 +69,41 @@ class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.
             //toastMsg가 변경 시 , 변경된 text로 toas를 띄워준다.
             toastMsg.observe(this@ParkLocationFragment, Observer {
                 when (toastMsg.value) {
-                    ParkInfoViewModel.MessageSet.NO_RESULT -> showToast(getString(
-                        R.string.no_result_msg))
-                    ParkInfoViewModel.MessageSet.NETWORK_NOT_CONNECTED -> showToast(getString(
-                        R.string.not_connectied_network))
-                    ParkInfoViewModel.MessageSet.REMOTE_SUCCESS -> showToast(getString(
-                        R.string.api_success_msg))
-                    ParkInfoViewModel.MessageSet.REMOTE_CHECK_SUCCESS -> showToast(getString(
-                        R.string.api_check_success_msg))
-                    ParkInfoViewModel.MessageSet.LOCAL_SUCCESS -> showToast(getString(
-                        R.string.db_success_msg))
-                    ParkInfoViewModel.MessageSet.ERROR -> showToast(getString(
-                        R.string.api_error_msg))
+                    ParkInfoViewModel.MessageSet.NO_RESULT -> showToast(
+                        getString(
+                            R.string.no_result_msg
+                        )
+                    )
+
+                    ParkInfoViewModel.MessageSet.NETWORK_NOT_CONNECTED -> showToast(
+                        getString(
+                            R.string.not_connectied_network
+                        )
+                    )
+
+                    ParkInfoViewModel.MessageSet.REMOTE_SUCCESS -> showToast(
+                        getString(
+                            R.string.api_success_msg
+                        )
+                    )
+
+                    ParkInfoViewModel.MessageSet.REMOTE_CHECK_SUCCESS -> showToast(
+                        getString(
+                            R.string.api_check_success_msg
+                        )
+                    )
+
+                    ParkInfoViewModel.MessageSet.LOCAL_SUCCESS -> showToast(
+                        getString(
+                            R.string.db_success_msg
+                        )
+                    )
+
+                    ParkInfoViewModel.MessageSet.ERROR -> showToast(
+                        getString(
+                            R.string.api_error_msg
+                        )
+                    )
 
                     else -> {}
                 }
@@ -86,8 +112,9 @@ class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.
     }
 
     private fun initMapView() {
-        var mapView = MapView(mContext)
+        val mapView = MapView(mContext)
         binding.mapView.addView(mapView)
+        mapView.setCurrentLocationEventListener(this)
 
         //현재 위치 표시
         mapView.currentLocationTrackingMode =
@@ -95,11 +122,32 @@ class ParkLocationFragment : BaseFragment<FragmentParkLocationBinding>(R.layout.
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
-            R.id.layout_search ->{
-                findNavController().navigate(R.id.action_parkLocationFragment_to_parkSearchFragment)
+        when (view?.id) {
+            R.id.layout_search -> {
+                val bundle = bundleOf(
+                    KEY_USER_LATITUDE to curLatitude,
+                    KEY_USER_LOGITUDE to curLongitude
+                )
+                findNavController().navigate(R.id.action_parkLocationFragment_to_parkSearchFragment, bundle)
             }
         }
+    }
+
+    //현 위치 파악
+    override fun onCurrentLocationUpdate(view: MapView?, currentLocation: MapPoint?, p2: Float) {
+        currentLocation?.let {
+            curLatitude = it.mapPointGeoCoord.latitude
+            curLongitude = it.mapPointGeoCoord.longitude
+        }
+    }
+
+    override fun onCurrentLocationDeviceHeadingUpdate(p0: MapView?, p1: Float) {
+    }
+
+    override fun onCurrentLocationUpdateFailed(p0: MapView?) {
+    }
+
+    override fun onCurrentLocationUpdateCancelled(p0: MapView?) {
     }
 
 }
