@@ -1,6 +1,7 @@
 package com.jtmcompany.parkingapplication.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
@@ -24,10 +25,13 @@ class ParkLocationFragment :
     private lateinit var mapView: MapView
 
     //현재 사용자의 위치(위도)
-    private var curLatitude: Double = 0.0;
+    private var curLatitude = 0.0;
 
     //현재 사용자의 위치(위도)
-    private var curLongitude: Double = 0.0;
+    private var curLongitude = 0.0;
+
+    //DB 업데이트가 필요한 경우
+    private var isNeedUpdateDB = false
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
@@ -45,21 +49,27 @@ class ParkLocationFragment :
     }
 
     private fun initObserver() {
-        viewModel.totalCntCheck.observe(this, Observer {
+        viewModel.totalCntCheck.observe(viewLifecycleOwner, Observer {
             val apiTotalCnt = it
             val localTotalCnt = PrefManager.getInt(mContext, "park_total_cnt")
-
+            Log.d("tak","localTotalCnt: "+localTotalCnt)
+            Log.d("tak","apiTotalCnt: "+it)
             //주차장 totalCnt(서버 정보)가 변경 되었을 때 or 앱 최초 진입시 전체 주차장 정보 서버로부터 불러오기
             if (apiTotalCnt != localTotalCnt) {
                 PrefManager.setInt(mContext, "park_total_cnt", apiTotalCnt)
+                isNeedUpdateDB = true
                 viewModel.requestParkInfo(apiTotalCnt)
             }
         })
 
         //서버로부터 주차장 정보 가져오기
-        viewModel.parkList.observe(this, Observer {
+        viewModel.parkList.observe(viewLifecycleOwner, Observer {
+            Log.d("tak", "receive! All Park response, size: "+it.size)
             //DB저장
-            viewModel.insertLocalPark(it)
+            if(isNeedUpdateDB) {
+                viewModel.insertLocalPark(it)
+                isNeedUpdateDB = false
+            }
         })
 
     }

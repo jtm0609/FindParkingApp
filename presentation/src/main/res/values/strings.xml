@@ -35,4 +35,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="msg_check_empty_park_">주차장을 입력하세요.</string>
     <string name="msg_check_word_count">단어를 2글자 이상 입력해 주세요!</string>
+    <string name="default_text">-</string>
 </resources>

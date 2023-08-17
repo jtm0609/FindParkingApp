@@ -2,9 +2,7 @@ package com.jtmcompany.data.mapper
 
 import com.jtmcompany.data.data.entity.BodyData
 import com.jtmcompany.data.data.entity.ParkEntity
-import com.jtmcompany.data.data.entity.ParkInfoData
 import com.jtmcompany.data.data.entity.ParkOperInfoEntity
-import com.jtmcompany.data.data.response.ParkInfoResponse
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.domain.model.ParkOperInfo
 
@@ -19,7 +17,7 @@ import com.jtmcompany.domain.model.ParkOperInfo
 object Mapper {
 
     fun mapperToParkInfo(parkInfos: BodyData): List<ParkInfo> {
-        return parkInfos.items.map {
+        return parkInfos.itemData.items.map {
             ParkInfo(
                 it.prkplceNo, // 주차장관리번호
                 it.prkplceNm, // 주차장명

@@ -38,6 +38,7 @@ class ParkRepositoryImpl @Inject constructor(
         }.doOnNext { mappingData ->
             // 변환된 데이터를 출력합니다.
             Log.d("tak", "mappingData: $mappingData")
+            Log.d("tak", "mappingData size: ${mappingData.size}")
         }
     }
 

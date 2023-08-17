@@ -1,32 +1,35 @@
 package com.jtmcompany.parkingapplication.view.fragment
 
 import android.content.Context
-import android.inputmethodservice.InputMethodService
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import androidx.core.content.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
+import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkSearchBinding
+import com.jtmcompany.parkingapplication.listener.ItemClickListener
 import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LATITUDE
+import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.utils.Constatns.NONE_DISTANCE
 import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
 import com.jtmcompany.parkingapplication.utils.TypeCheckManager
 import com.jtmcompany.parkingapplication.view.ParkInfoViewModel
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 
 class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.fragment_park_search),
     View.OnClickListener {
 
     private val viewModel: ParkInfoViewModel by activityViewModels()
-    private lateinit var searchResult: ArrayList<ParkInfo>
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
 
@@ -39,7 +42,6 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
     }
 
     private fun initLayout() {
-        searchResult = ArrayList()
         binding.spParkSection.adapter = getSpinnerAdpater(R.array.parking_lot_section)
         binding.spParkType.adapter = getSpinnerAdpater(R.array.parking_lot_type)
         binding.spParkCharge.adapter = getSpinnerAdpater(R.array.parking_charge_info)
@@ -47,7 +49,10 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
 
         arguments?.let {
             userLatitude = it.getDouble(KEY_USER_LATITUDE)
-            userLongitude = it.getDouble(KEY_USER_LATITUDE)
+            userLongitude = it.getDouble(KEY_USER_LOGITUDE)
+
+            Log.d("tak", "userLiatutude: $userLatitude")
+            Log.d("tak", "userLongitude: $userLongitude")
         }
     }
 
@@ -62,34 +67,38 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
     }
 
     private fun initObserver() {
-        viewModel.parkLocalList.observe(this, Observer { parkInfoList ->
+        viewModel.parkLocalList.observe(viewLifecycleOwner, Observer { parkInfoList ->
+            Log.d("tak","parkInfoList size: "+parkInfoList.size)
+            val searchResultList = ArrayList<ParkInfo>()
             val keyword = binding.editKeword.text.toString()
             for (parkInfo in parkInfoList) {
-                var isPassCondition = false //조건 부합 여부
-                var isHasResult = false //검색 결과가 있는지
+                var isPassCondition = true //조건 부합 여부
+                var isHasResult = true //검색 결과가 있는지
 
                 //주차장 구분
-                if(binding.spParkSection.selectedItemPosition>0){
+                if (binding.spParkSection.selectedItemPosition > 0) {
                     parkInfo.prkplceSe?.let {
                         isPassCondition = it == binding.spParkSection.selectedItem.toString()
                     }
                 }
 
                 //주차장 유형
-                if(binding.spParkType.selectedItemPosition>0){
+                if (binding.spParkType.selectedItemPosition > 0) {
                     parkInfo.prkplceType.let {
                         isPassCondition = it == binding.spParkType.selectedItem.toString()
                     }
                 }
 
                 //요금 정보
-                if(binding.spParkCharge.selectedItemPosition>0){
+                if (binding.spParkCharge.selectedItemPosition > 0) {
                     parkInfo.parkingchrgeInfo.let {
                         isPassCondition = it == binding.spParkCharge.selectedItem.toString()
                     }
                 }
 
-                if(isPassCondition) {
+                if (isPassCondition) {
+                    isPassCondition = false
+                    isHasResult = false
                     parkInfo.prkplceNm?.let {//주차장 이름 체크
                         if (it.contains(keyword)) {
                             isHasResult = true
@@ -111,21 +120,49 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
                 if (isHasResult) {
                     //나와의 거리 계산
                     if (TypeCheckManager.isNumeric(parkInfo.latitude)
-                        && TypeCheckManager.isNumeric(parkInfo.longitude)) {
+                        && TypeCheckManager.isNumeric(parkInfo.longitude)
+                    ) {
                         parkInfo.distance = GeoDistanceManager.getDistance(
                             userLatitude,
                             userLongitude,
                             parkInfo.latitude!!.toDouble(),
                             parkInfo.longitude!!.toDouble()
                         )
-                    }else{
+                    } else {
                         //거리 계산 안됨
                         parkInfo.distance = NONE_DISTANCE.toDouble()
                     }
-                    searchResult.add(parkInfo)
+                    searchResultList.add(parkInfo)
                 }
             }
+
+            onComplete(searchResultList)
         })
+    }
+
+    fun onComplete(searchResultList: ArrayList<ParkInfo>) {
+        if(searchResultList.size == 0){
+            binding.layoutNoData.visibility = View.VISIBLE
+        }else{
+            //거리 순으로 정렬
+            Collections.sort(searchResultList, getComparator())
+        }
+
+        val adapter = ParkListAdapter(searchResultList, object: ItemClickListener{
+            override fun onItemClick(parkInfo: ParkInfo) {
+                Log.d("tak","ItemClick: "+parkInfo.prkplceNm)
+            }
+
+        })
+        binding.recyclerView.adapter = adapter
+    }
+
+    //오름차순 정렬(거리)
+    private fun getComparator() : Comparator<ParkInfo> {
+        val comparator = Comparator<ParkInfo> { item1, item2 ->
+            item1.distance.compareTo(item2.distance)
+        }
+        return comparator
     }
 
     override fun onClick(v: View?) {

@@ -57,15 +57,17 @@ class ParkInfoViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }
                 .doAfterTerminate { hideProgress() }
-                .subscribe({ parks ->
-                    if (parks.isEmpty()) {
+                .subscribe({ list ->
+                    if (list.isEmpty()) {
                         _toastMsg.value = MessageSet.NO_RESULT
                     } else {
                         if(numOfRows==1){
-                            _totalCnt.value=parks.get(0).totalCnt.toInt()
+                            Log.d("tak", "Success1")
+                            _totalCnt.value=list.get(0).totalCnt.toInt()
                             _toastMsg.value = MessageSet.REMOTE_CHECK_SUCCESS
                         }else {
-                            _parkList.value = parks as ArrayList<ParkInfo>
+                            Log.d("tak", "Success2")
+                            _parkList.value = list as ArrayList<ParkInfo>
                             _toastMsg.value = MessageSet.REMOTE_SUCCESS
                         }
 

@@ -13,5 +13,5 @@ data class BodyData(
     @PropertyElement(name="pageNo")
     val pageNo: String,
     @Element(name="items")
-    val items: List<ParkInfoData>
+    val itemData: ItemData
 )
