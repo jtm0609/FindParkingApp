@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".view.fragment.NaviMenuBottomDialogFragment"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/msg_setting_navigation_app"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/layout_tmap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_t_map"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_kakao_navi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_kakao_navi"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

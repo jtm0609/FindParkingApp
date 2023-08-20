@@ -1,6 +1,7 @@
 package com.jtmcompany.domain.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  * 실제 사용하는 Data Class.
@@ -43,4 +44,4 @@ data class ParkInfo (
 
     var totalCnt: String,
     var distance: Double = 0.0 // 나와의 거리
-)
+): Serializable

@@ -7,14 +7,17 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkSearchBinding
 import com.jtmcompany.parkingapplication.listener.ItemClickListener
+import com.jtmcompany.parkingapplication.utils.Constatns.KEY_SELECT_PARK_INFO
 import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LATITUDE
 import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.utils.Constatns.NONE_DISTANCE
@@ -27,7 +30,7 @@ import kotlin.collections.ArrayList
 
 
 class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.fragment_park_search),
-    View.OnClickListener {
+    View.OnClickListener, ItemClickListener {
 
     private val viewModel: ParkInfoViewModel by activityViewModels()
     private var userLatitude: Double = 0.0
@@ -68,6 +71,10 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
 
     private fun initObserver() {
         viewModel.parkLocalList.observe(viewLifecycleOwner, Observer { parkInfoList ->
+            if(binding.editKeword.text.toString().isEmpty()){
+                return@Observer;
+            }
+
             Log.d("tak","parkInfoList size: "+parkInfoList.size)
             val searchResultList = ArrayList<ParkInfo>()
             val keyword = binding.editKeword.text.toString()
@@ -140,7 +147,7 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
         })
     }
 
-    fun onComplete(searchResultList: ArrayList<ParkInfo>) {
+    private fun onComplete(searchResultList: ArrayList<ParkInfo>) {
         if(searchResultList.size == 0){
             binding.layoutNoData.visibility = View.VISIBLE
         }else{
@@ -148,12 +155,7 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
             Collections.sort(searchResultList, getComparator())
         }
 
-        val adapter = ParkListAdapter(searchResultList, object: ItemClickListener{
-            override fun onItemClick(parkInfo: ParkInfo) {
-                Log.d("tak","ItemClick: "+parkInfo.prkplceNm)
-            }
-
-        })
+        val adapter = ParkListAdapter(searchResultList, this)
         binding.recyclerView.adapter = adapter
     }
 
@@ -192,5 +194,9 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
         }
     }
 
-
+    override fun onItemClick(parkInfo: ParkInfo) {
+        Log.d("tak","ItemClick: "+parkInfo.prkplceNm)
+        val bundle = bundleOf(KEY_SELECT_PARK_INFO to parkInfo)
+        findNavController().navigate(R.id.action_parkSearchFragment_to_parkDetailFragment, bundle)
+    }
 }

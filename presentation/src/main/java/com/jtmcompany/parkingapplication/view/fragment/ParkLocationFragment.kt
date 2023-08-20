@@ -36,9 +36,9 @@ class ParkLocationFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
         intLayout()
-        initViewModelCallback()
-        initObserver()
         initMapView()
+        //initViewModelCallback()
+        initObserver()
 
         //주차장 정보를 가져온다.
         viewModel.requestParkInfo(1)
@@ -122,7 +122,7 @@ class ParkLocationFragment :
     }
 
     private fun initMapView() {
-        val mapView = MapView(mContext)
+        mapView = MapView(mContext)
         binding.mapView.addView(mapView)
         mapView.setCurrentLocationEventListener(this)
 

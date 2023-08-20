@@ -76,6 +76,8 @@
                 android:textSize="14dp"
                 android:inputType="text"
                 android:background="@drawable/edit_normal_bg"
+                android:hint="@string/msg_hint_search_park"
+                android:textColorHint="@color/color_dddddd"
                 />
 
             <Button

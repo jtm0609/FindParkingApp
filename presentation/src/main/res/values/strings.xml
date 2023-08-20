@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Parking Application</string>
+    <string name="app_name">우리의 주차장</string>
     <string name="no_result_msg">검색 결과가 없습니다.</string>
     <string name="not_connectied_network">네트워크 연결을 확인해주세요.</string>
     <string name="api_success_msg">API SUCCESS</string>
@@ -36,4 +36,11 @@
     <string name="msg_check_empty_park_">주차장을 입력하세요.</string>
     <string name="msg_check_word_count">단어를 2글자 이상 입력해 주세요!</string>
     <string name="default_text">-</string>
+    <string name="msg_alert_need_permission">앱을 이용하기 위해서는 권한이 필요합니다.</string>
+    <string name="kakao_native_app_key">b1322bfcbf8eb0cc3ae4021c1c877c47</string>
+    <string name="tmap_native_app_key">uMUH7FSYdJ121F7wirW5D1ozidziWyiM6zJOeWqs</string>
+    <string name="msg_setting_navigation_app">내비게이션으로\n설정할 앱을 선택해주세요.</string>
+    <string name="msg_t_map">T map</string>
+    <string name="msg_kakao_navi">카카오 내비</string>
+    <string name="msg_hint_search_park">목적지 또는 주소 검색</string>
 </resources>

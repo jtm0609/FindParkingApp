@@ -56,7 +56,7 @@ class ParkInfoViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }
-                .doAfterTerminate { hideProgress() }
+                .doOnNext { hideProgress() }
                 .subscribe({ list ->
                     if (list.isEmpty()) {
                         _toastMsg.value = MessageSet.NO_RESULT
@@ -89,7 +89,7 @@ class ParkInfoViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }
-                .doAfterTerminate { hideProgress() }
+                .doOnNext { hideProgress() }
                 .subscribe({ parkOpers ->
                     if (parkOpers.isEmpty()) {
                         _toastMsg.value = MessageSet.NO_RESULT
@@ -109,7 +109,7 @@ class ParkInfoViewModel @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { showProgress() }
-                .doAfterTerminate { hideProgress() }
+                .doOnNext { hideProgress() }
                 .subscribe({ parks ->
                     if (parks.isEmpty()) {
                         _toastMsg.value = MessageSet.ERROR

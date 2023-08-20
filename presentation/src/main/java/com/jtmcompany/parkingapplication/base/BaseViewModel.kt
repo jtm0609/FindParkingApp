@@ -1,5 +1,6 @@
 package com.jtmcompany.parkingapplication.base
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,10 +15,12 @@ abstract class BaseViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun showProgress() {
+        Log.d("tak","showProgress!")
         _isLoading.value = true
     }
 
     fun hideProgress() {
+        Log.d("tak","hideProgress!")
         _isLoading.value = false
     }
 

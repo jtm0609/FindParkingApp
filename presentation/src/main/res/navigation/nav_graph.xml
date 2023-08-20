@@ -3,8 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/parkLocationFragment">
+    app:startDestination="@id/splashFragment">
 
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.jtmcompany.parkingapplication.view.fragment.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_parkLocationFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/parkLocationFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/parkLocationFragment"
@@ -17,18 +28,17 @@
     </fragment>
 
     <fragment
-        android:id="@+id/splashFragment"
-        android:name="com.jtmcompany.parkingapplication.view.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
-        <action
-            android:id="@+id/action_splashFragment_to_parkLocationFragment"
-            app:destination="@id/parkLocationFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/parkSearchFragment"
         android:name="com.jtmcompany.parkingapplication.view.fragment.ParkSearchFragment"
 
-        tools:layout="@layout/fragment_park_search"/>
+        tools:layout="@layout/fragment_park_search">
+        <action
+            android:id="@+id/action_parkSearchFragment_to_parkDetailFragment"
+            app:destination="@id/parkDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/parkDetailFragment"
+        android:name="com.jtmcompany.parkingapplication.view.fragment.ParkDetailFragment"
+        android:label="ParkDetailFragment" />
 
 </navigation>
