@@ -3,7 +3,7 @@ package com.jtmcompany.parkingapplication.view.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +18,11 @@ import com.kakao.sdk.navi.model.CoordType
 import com.kakao.sdk.navi.model.Location
 import com.kakao.sdk.navi.model.NaviOption
 import com.skt.Tmap.TMapTapi
+import com.skt.Tmap.TMapTapi.OnAuthenticationListenerCallback
 
 
-class NaviMenuBottomDialogFragment(private val parkInfo: ParkInfo) : BottomSheetDialogFragment(), View.OnClickListener {
+class NaviMenuBottomDialogFragment(private val parkInfo: ParkInfo) : BottomSheetDialogFragment(),
+    View.OnClickListener {
 
     private lateinit var binding: FragmentNaviMenuBottomDialogBinding
     override fun onCreateView(
@@ -52,38 +54,67 @@ class NaviMenuBottomDialogFragment(private val parkInfo: ParkInfo) : BottomSheet
             R.id.layout_tmap -> {
                 val tMap = TMapTapi(requireContext())
                 tMap.setSKTMapAuthentication(getString(R.string.tmap_native_app_key))
-                tMap.invokeRoute(
-                    parkInfo.prkplceNm!!,
-                    parkInfo.longitude!!.toFloat(),
-                    parkInfo.latitude!!.toFloat()
-                )
+                tMap.setOnAuthenticationListener(object : OnAuthenticationListenerCallback {
+                    override fun SKTMapApikeySucceed() {
+                        Log.d("tak","isInstalled?: "+tMap.isTmapApplicationInstalled)
+                        executeTmap(tMap)
+                    }
+
+                    override fun SKTMapApikeyFailed(p0: String?) {
+                        Log.d("tak","fail: "+p0.toString())
+                    }
+
+                })
+                executeTmap(tMap)
                 this.dismiss()
             }
 
             R.id.layout_kakao_navi -> {
-                if (NaviClient.instance.isKakaoNaviInstalled(requireContext())) {
-                    parkInfo.let {
-                        activity?.startActivity(
-                            NaviClient.instance.navigateIntent(
-                                Location(
-                                    parkInfo.prkplceNm!!,
-                                    parkInfo.longitude!!,
-                                    parkInfo.latitude!!
-                                ),
-                                NaviOption(coordType = CoordType.WGS84)
-                            )
-                        )
-                    }
-                } else { //카카오 네비 미 설치
-                    activity?.startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse(Constants.WEB_NAVI_INSTALL)
-                        ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    )
-                }
+                executeKakaoNavi()
                 this.dismiss()
             }
+        }
+    }
+
+    fun executeTmap(tMap: TMapTapi){
+        if (tMap.isTmapApplicationInstalled) {
+            tMap.invokeRoute(
+                parkInfo.prkplceNm!!,
+                parkInfo.longitude!!.toFloat(),
+                parkInfo.latitude!!.toFloat()
+            )
+        }else{
+            val packageName = "com.skt.tmap.ku"
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$packageName")
+                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            )
+        }
+    }
+
+    fun executeKakaoNavi(){
+        if (NaviClient.instance.isKakaoNaviInstalled(requireContext())) {
+            parkInfo.let {
+                activity?.startActivity(
+                    NaviClient.instance.navigateIntent(
+                        Location(
+                            parkInfo.prkplceNm!!,
+                            parkInfo.longitude!!,
+                            parkInfo.latitude!!
+                        ),
+                        NaviOption(coordType = CoordType.WGS84)
+                    )
+                )
+            }
+        } else { //카카오 네비 미 설치
+            activity?.startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(Constants.WEB_NAVI_INSTALL)
+                ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            )
         }
     }
 }
