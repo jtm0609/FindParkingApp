@@ -3,6 +3,7 @@
 - Kotlin
 - RxKoltin
 - Retrofit
+- DataBinding
 - Hilt
 - Room 
 - Navigation Component
