@@ -4,6 +4,7 @@
 - RxKoltin
 - Retrofit
 - DataBinding
+- LiveData
 - Hilt
 - Room 
 - Navigation Component
