@@ -1,4 +1,4 @@
-package com.jtmcompany.parkingapplication.view.fragment
+package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentSplashBinding
-import com.jtmcompany.parkingapplication.utils.Constatns
-import com.jtmcompany.parkingapplication.view.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.utils.Constants
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
 
 class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_splash) {
 
@@ -28,7 +28,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
             }else{
                 findNavController().navigate(R.id.action_splashFragment_to_parkLocationFragment)
             }
-        }, Constatns.LOADING_DELAY)
+        }, Constants.LOADING_DELAY)
     }
 
     private fun requestPermission(){

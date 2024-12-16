@@ -1,7 +1,7 @@
 package com.jtmcompany.data.datasource.remote
 
-import com.jtmcompany.data.data.response.ParkInfoResponse
-import com.jtmcompany.data.data.response.ParkOperInfoResponse
+import com.jtmcompany.data.data.response.ParkInfoDTO
+import com.jtmcompany.data.data.response.ParkOperInfoDTO
 import io.reactivex.Single
 
 /**
@@ -9,7 +9,7 @@ import io.reactivex.Single
  * DataSourceInpl 에서 구현된다.
  */
 interface ParkRemoteDataSource {
-    fun getParkInfo(numOfRows: Int) : Single<ParkInfoResponse>
+    fun getParkInfo(numOfRows: Int) : Single<ParkInfoDTO>
 
-    fun getParkOperInfo(): Single<ParkOperInfoResponse>
+    fun getParkOperInfo(): Single<ParkOperInfoDTO>
 }

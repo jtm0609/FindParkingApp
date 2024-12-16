@@ -1,4 +1,4 @@
-package com.jtmcompany.parkingapplication.view.fragment
+package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -17,13 +17,13 @@ import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkSearchBinding
 import com.jtmcompany.parkingapplication.listener.ItemClickListener
-import com.jtmcompany.parkingapplication.utils.Constatns.KEY_SELECT_PARK_INFO
-import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LATITUDE
-import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LOGITUDE
-import com.jtmcompany.parkingapplication.utils.Constatns.NONE_DISTANCE
+import com.jtmcompany.parkingapplication.utils.Constants.KEY_SELECT_PARK_INFO
+import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
+import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
+import com.jtmcompany.parkingapplication.utils.Constants.NONE_DISTANCE
 import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
 import com.jtmcompany.parkingapplication.utils.TypeCheckManager
-import com.jtmcompany.parkingapplication.view.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
 import java.util.*
 import kotlin.Comparator
 import kotlin.collections.ArrayList

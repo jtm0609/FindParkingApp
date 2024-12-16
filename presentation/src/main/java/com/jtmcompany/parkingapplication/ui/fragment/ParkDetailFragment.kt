@@ -1,25 +1,13 @@
-package com.jtmcompany.parkingapplication.view.fragment
+package com.jtmcompany.parkingapplication.ui.fragment
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkDetailBinding
-import com.jtmcompany.parkingapplication.utils.Constatns
+import com.jtmcompany.parkingapplication.utils.Constants
 import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
-import com.kakao.sdk.navi.Constants
-import com.kakao.sdk.navi.NaviClient
-import com.kakao.sdk.navi.model.CoordType
-import com.kakao.sdk.navi.model.Location
-import com.kakao.sdk.navi.model.NaviOption
-import com.skt.Tmap.TMapTapi
 
 
 class ParkDetailFragment : BaseFragment<FragmentParkDetailBinding>(R.layout.fragment_park_detail),
@@ -32,7 +20,7 @@ class ParkDetailFragment : BaseFragment<FragmentParkDetailBinding>(R.layout.frag
 
     private fun initLayout() {
         arguments?.let {
-            parkInfo = it.getSerializable(Constatns.KEY_SELECT_PARK_INFO) as ParkInfo
+            parkInfo = it.getSerializable(Constants.KEY_SELECT_PARK_INFO) as ParkInfo
             binding.txtParkingLotName.text = parkInfo.prkplceNm
             binding.txtDistance.text = GeoDistanceManager.getDistanceStr(parkInfo.distance)
             binding.txtPrkplceSe.text = parkInfo.prkplceSe

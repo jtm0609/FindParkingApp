@@ -9,7 +9,7 @@ import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.databinding.ItemParkingBinding
 import com.jtmcompany.parkingapplication.listener.ItemClickListener
-import com.jtmcompany.parkingapplication.utils.Constatns
+import com.jtmcompany.parkingapplication.utils.Constants
 import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
 
 class ParkListAdapter(private val parkList: ArrayList<ParkInfo>,
@@ -45,7 +45,7 @@ class ParkListAdapter(private val parkList: ArrayList<ParkInfo>,
         holder.txtDetail.text = detail
 
         //거리 표시
-        if(parkInfo.distance == Constatns.NONE_DISTANCE) { //거리 정보가 없으면
+        if(parkInfo.distance == Constants.NONE_DISTANCE) { //거리 정보가 없으면
             holder.txtDistance.text = ""
         }else{
             holder.txtDistance.text = GeoDistanceManager.getDistanceStr(parkInfo.distance)

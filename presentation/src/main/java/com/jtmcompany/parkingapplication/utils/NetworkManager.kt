@@ -23,10 +23,5 @@ class NetworkManager @Inject constructor(@ApplicationContext private val context
             actNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)->true
             else ->false
         }
-
-
     }
-
-
-
 }

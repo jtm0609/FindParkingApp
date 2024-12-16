@@ -1,9 +1,9 @@
 package com.jtmcompany.data.data.response
 
 import com.google.gson.annotations.SerializedName
-import com.jtmcompany.data.data.entity.ParkOperInfoEntity
+import com.jtmcompany.data.data.entity.response.remote.ParkOperInfo
 
-data class ParkOperInfoResponse(
+data class ParkOperInfoDTO(
     @SerializedName("resultCode")
     val resultCode: String,
     @SerializedName("resultMsg")
@@ -15,5 +15,5 @@ data class ParkOperInfoResponse(
     @SerializedName("totalCount")
     val totalCount: String,
     @SerializedName("PrkOprInfo")
-    val parkOperInfo: List<ParkOperInfoEntity> //주차장 운영 정보
+    val parkOperInfo: List<ParkOperInfo> //주차장 운영 정보
     )

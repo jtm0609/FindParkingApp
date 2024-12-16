@@ -1,6 +1,6 @@
 package com.jtmcompany.parkingapplication.utils
 
-object Constatns {
+object Constants {
     const val KEY_USER_LATITUDE = "user_latitude"
     const val KEY_USER_LOGITUDE = "user_longitud"
     const val KEY_SELECT_PARK_INFO = "select_park_info"

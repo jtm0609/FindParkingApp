@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.jtmcompany.parkingapplication.view.fragment.SplashFragment"
+        android:name="com.jtmcompany.parkingapplication.ui.fragment.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash">
         <action
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/parkLocationFragment"
-        android:name="com.jtmcompany.parkingapplication.view.fragment.ParkLocationFragment"
+        android:name="com.jtmcompany.parkingapplication.ui.fragment.ParkLocationFragment"
 
         tools:layout="@layout/fragment_park_location">
         <action
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/parkSearchFragment"
-        android:name="com.jtmcompany.parkingapplication.view.fragment.ParkSearchFragment"
+        android:name="com.jtmcompany.parkingapplication.ui.fragment.ParkSearchFragment"
 
         tools:layout="@layout/fragment_park_search">
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/parkDetailFragment"
-        android:name="com.jtmcompany.parkingapplication.view.fragment.ParkDetailFragment"
+        android:name="com.jtmcompany.parkingapplication.ui.fragment.ParkDetailFragment"
         android:label="ParkDetailFragment" />
 
 </navigation>

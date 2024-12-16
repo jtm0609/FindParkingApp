@@ -8,7 +8,7 @@ object GeoDistanceManager {
 
     //거리 계산
     fun getDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
-        var distance: Double
+        val distance: Double
 
         val locationA = Location("point A")
         locationA.latitude = lat1
@@ -25,12 +25,11 @@ object GeoDistanceManager {
 
     //계산한 거리 단위(km, m)로 변환
     fun getDistanceStr(distance: Double): String {
-        var distanceStr: String
 
-        if (distance > 1000) { //1km 이상
-            distanceStr = (distance / 1000).roundToInt().toString() + "km"
+        val distanceStr: String = if (distance > 1000) { //1km 이상
+            (distance / 1000).roundToInt().toString() + "km"
         } else { //소수점 버림
-            distanceStr = floor(distance).toString() + "m"
+            floor(distance).toString() + "m"
         }
         return distanceStr
     }

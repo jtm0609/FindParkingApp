@@ -1,4 +1,4 @@
-package com.jtmcompany.parkingapplication.view.fragment
+package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -10,10 +10,10 @@ import androidx.navigation.fragment.findNavController
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkLocationBinding
-import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LATITUDE
-import com.jtmcompany.parkingapplication.utils.Constatns.KEY_USER_LOGITUDE
+import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
+import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.utils.PrefManager
-import com.jtmcompany.parkingapplication.view.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 

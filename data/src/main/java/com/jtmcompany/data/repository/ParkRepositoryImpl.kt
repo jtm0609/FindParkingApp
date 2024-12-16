@@ -1,18 +1,15 @@
 package com.jtmcompany.data.repository
 
 import android.util.Log
-import com.jtmcompany.data.data.entity.ParkEntity
 import com.jtmcompany.data.datasource.local.ParkLocalDataSource
 import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
-import com.jtmcompany.data.mapper.Mapper
+import com.jtmcompany.data.mapper.DataMapper.toDataModel
+import com.jtmcompany.data.mapper.DomainMapper.toDomainModel
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.domain.model.ParkOperInfo
 import com.jtmcompany.repository.ParkRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.util.NotificationLite.disposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -34,7 +31,7 @@ class ParkRepositoryImpl @Inject constructor(
                 response ->
             Log.d("tak", "response: $response")
         }.map {
-            Mapper.mapperToParkInfo(it.body)
+            it.toDomainModel()
         }.doOnNext { mappingData ->
             // 변환된 데이터를 출력합니다.
             Log.d("tak", "mappingData: $mappingData")
@@ -44,20 +41,20 @@ class ParkRepositoryImpl @Inject constructor(
 
     override fun getRemoteParkOperInfo(): Flowable<List<ParkOperInfo>> {
         return parkRemoteDataSource.getParkOperInfo().toFlowable().map {
-            Mapper.mapperToParkOperStatus(it.parkOperInfo)
+            it.toDomainModel()
         }
     }
 
     override fun insertPark(parks: List<ParkInfo>): Completable {
         return parkLocalDataSource.insertParks(
-            Mapper.mapperToLocalParkEntity(parks)
+            parks.map { it.toDataModel() }
         )
     }
 
     //DB에서 주차장 정보 가져오기
     override fun getLocalParkInfo(): Flowable<List<ParkInfo>> {
         return parkLocalDataSource.getAllParks().toFlowable().map {
-            Mapper.mapperToLocalParkInfo(it)
+            it.map { parkEntity ->  parkEntity.toDomainModel()}
         }
     }
 }

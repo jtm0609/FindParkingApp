@@ -1,10 +1,10 @@
-package com.jtmcompany.data.data.entity
+package com.jtmcompany.data.data.entity.response.remote
 
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 
 @Xml
-data class ParkInfoData(
+data class ParkInfo(
     @PropertyElement(name = "prkplceNo")
     var prkplceNo: String?, // 주차장관리번호
     @PropertyElement(name = "prkplceNm")

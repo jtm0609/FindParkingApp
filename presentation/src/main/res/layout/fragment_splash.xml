@@ -8,7 +8,7 @@
 
         <variable
             name="vm"
-            type="com.jtmcompany.parkingapplication.view.ParkInfoViewModel" />
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel" />
     </data>
 
     <LinearLayout

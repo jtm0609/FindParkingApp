@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.jtmcompany.data.data.entity.ParkEntity
-import com.jtmcompany.domain.model.ParkInfo
+import com.jtmcompany.data.data.entity.response.local.ParkEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 

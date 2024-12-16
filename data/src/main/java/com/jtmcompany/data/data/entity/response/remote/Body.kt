@@ -1,11 +1,11 @@
-package com.jtmcompany.data.data.entity
+package com.jtmcompany.data.data.entity.response.remote
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "body")
-data class BodyData(
+data class Body(
     @PropertyElement(name="totalCount")
     val totalCount: String,
     @PropertyElement(name="numOfRows")
@@ -13,5 +13,5 @@ data class BodyData(
     @PropertyElement(name="pageNo")
     val pageNo: String,
     @Element(name="items")
-    val itemData: ItemData
+    val item: Item
 )

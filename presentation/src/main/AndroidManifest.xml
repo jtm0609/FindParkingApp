@@ -14,7 +14,7 @@
 
 
     <application
-        android:name=".di.DiApplication"
+        android:name=".application.ParkApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
         android:theme="@style/Theme.ParkingApplication"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".view.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

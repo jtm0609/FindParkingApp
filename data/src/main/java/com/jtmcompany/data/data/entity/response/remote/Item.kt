@@ -1,10 +1,10 @@
-package com.jtmcompany.data.data.entity
+package com.jtmcompany.data.data.entity.response.remote
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Xml
 
 @Xml(name = "items")
-data class ItemData(
+data class Item(
     @Element(name="item")
-    val items: List<ParkInfoData>
+    val items: List<ParkInfo>
 )

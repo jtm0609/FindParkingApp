@@ -1,7 +1,6 @@
 package com.jtmcompany.data.datasource.local
 
-import com.jtmcompany.data.data.entity.ParkEntity
-import com.jtmcompany.domain.model.ParkInfo
+import com.jtmcompany.data.data.entity.response.local.ParkEntity
 import io.reactivex.Completable
 import io.reactivex.Single
 

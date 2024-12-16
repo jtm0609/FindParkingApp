@@ -1,4 +1,4 @@
-package com.jtmcompany.parkingapplication.view
+package com.jtmcompany.parkingapplication.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -14,7 +14,6 @@ import com.jtmcompany.parkingapplication.utils.NetworkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import java.util.logging.Logger
 import javax.inject.Inject
 
 @HiltViewModel

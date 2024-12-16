@@ -1,4 +1,4 @@
-package com.jtmcompany.parkingapplication.view.fragment
+package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.Intent
 import android.net.Uri
