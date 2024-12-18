@@ -44,4 +44,9 @@ data class ParkInfo (
 
     var totalCnt: String,
     var distance: Double = 0.0 // 나와의 거리
-): Serializable
+): Serializable {
+    val address: String?
+        get() {
+            return if (!rdnmadr.isNullOrEmpty()) rdnmadr else lnmadr
+        }
+}

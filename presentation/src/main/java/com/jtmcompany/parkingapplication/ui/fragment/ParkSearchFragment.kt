@@ -1,7 +1,6 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.Context
-import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -30,11 +29,13 @@ import kotlin.collections.ArrayList
 
 
 class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewModel>(R.layout.fragment_park_search),
-    View.OnClickListener, ItemClickListener {
+    View.OnClickListener {
 
     override val viewModel: ParkInfoViewModel by activityViewModels()
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
+
+    private val parkListAdapter by lazy { ParkListAdapter(viewModel) }
     override fun setBindingVariable(binding: FragmentParkSearchBinding) {
         with(binding) {
             viewModel = this@ParkSearchFragment.viewModel
@@ -42,9 +43,10 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewM
     }
 
     override fun initView() {
-        binding.spParkSection.adapter = getSpinnerAdpater(R.array.parking_lot_section)
-        binding.spParkType.adapter = getSpinnerAdpater(R.array.parking_lot_type)
-        binding.spParkCharge.adapter = getSpinnerAdpater(R.array.parking_charge_info)
+        initRecyclerAdapter()
+        initSpinnerAdapter()
+
+
         binding.btSearch.setOnClickListener(this)
 
         arguments?.let {
@@ -56,15 +58,6 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewM
         }
     }
 
-    private fun getSpinnerAdpater(resource: Int): ArrayAdapter<String> {
-        val adapter = ArrayAdapter<String>(
-            mContext,
-            R.layout.spinner_item,
-            resources.getStringArray(resource)
-        )
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        return adapter
-    }
 
     override fun initObserver() {
         viewModel.parkLocalList.observe(viewLifecycleOwner, Observer { parkInfoList ->
@@ -142,6 +135,12 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewM
 
             onComplete(searchResultList)
         })
+
+        viewModel.clickedParkInfo.observe(viewLifecycleOwner) {
+            Log.d("tak","ItemClick: "+parkInfo.prkplceNm)
+            val bundle = bundleOf(KEY_SELECT_PARK_INFO to parkInfo)
+            findNavController().navigate(R.id.action_parkSearchFragment_to_parkDetailFragment, bundle)
+        }
     }
 
 
@@ -153,8 +152,29 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewM
             Collections.sort(searchResultList, getComparator())
         }
 
-        val adapter = ParkListAdapter(searchResultList, this)
-        binding.recyclerView.adapter = adapter
+        parkListAdapter.submitList(searchResultList)
+    }
+
+    private fun initRecyclerAdapter() {
+        with(binding) {
+            recyclerView.adapter = parkListAdapter
+        }
+    }
+
+    private fun initSpinnerAdapter() {
+        binding.spParkSection.adapter = getSpinnerAdapter(R.array.parking_lot_section)
+        binding.spParkType.adapter = getSpinnerAdapter(R.array.parking_lot_type)
+        binding.spParkCharge.adapter = getSpinnerAdapter(R.array.parking_charge_info)
+    }
+
+    private fun getSpinnerAdapter(resource: Int): ArrayAdapter<String> {
+        val adapter = ArrayAdapter(
+            mContext,
+            R.layout.spinner_item,
+            resources.getStringArray(resource)
+        )
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        return adapter
     }
 
     //오름차순 정렬(거리)
@@ -192,9 +212,4 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewM
         }
     }
 
-    override fun onItemClick(parkInfo: ParkInfo) {
-        Log.d("tak","ItemClick: "+parkInfo.prkplceNm)
-        val bundle = bundleOf(KEY_SELECT_PARK_INFO to parkInfo)
-        findNavController().navigate(R.id.action_parkSearchFragment_to_parkDetailFragment, bundle)
-    }
 }

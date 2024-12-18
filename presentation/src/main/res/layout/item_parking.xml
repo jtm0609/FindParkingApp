@@ -2,7 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
+        <variable
+            name="data"
+            type="com.jtmcompany.domain.model.ParkInfo" />
+        <variable
+            name="viewModel"
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel" />
     </data>
 
     <LinearLayout
@@ -11,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        android:background="@drawable/bg_selector_list_item">
+        android:background="@drawable/bg_selector_list_item"
+        android:onClick="@{()->viewModel.onClickParkInfo(data)}">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -27,7 +33,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textSize="20sp"
-                android:text="@string/default_text" />
+                android:text="@{data.prkplceNm}" />
 
             <TextView
                 android:id="@+id/txtDistance"
@@ -35,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:textSize="20sp"
-                android:text="@string/default_text" />
+                android:text="@{viewModel.getDistanceStr(data.distance)}" />
 
         </LinearLayout>
 
@@ -48,7 +54,7 @@
             android:ellipsize="end"
             android:textSize="13sp"
             android:textColor="@color/color_999999"
-            android:text="@string/default_text" />
+            android:text="@{data.address}" />
 
         <TextView
             android:id="@+id/txtDetail"
@@ -56,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="15sp"
-            android:text="@string/default_text" />
+            android:text="@{data.prkplceSe + '/' + data.prkplceType + '/' + data.parkingchrgeInfo}" />
 
     </LinearLayout>
 </layout>

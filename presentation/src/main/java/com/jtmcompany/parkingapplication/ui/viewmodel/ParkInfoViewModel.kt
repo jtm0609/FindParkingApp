@@ -11,10 +11,13 @@ import com.jtmcompany.domain.usecase.GetParkOperInfoUsecase
 import com.jtmcompany.domain.usecase.InsertLocalParkUsecase
 import com.jtmcompany.parkingapplication.base.BaseViewModel
 import com.jtmcompany.parkingapplication.utils.NetworkManager
+import com.jtmcompany.parkingapplication.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import kotlin.math.floor
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class ParkInfoViewModel @Inject constructor(
@@ -43,6 +46,9 @@ class ParkInfoViewModel @Inject constructor(
     // toast 메시지
     private val _toastMsg = MutableLiveData<MessageSet>()
     val toastMsg: LiveData<MessageSet> get() = _toastMsg
+
+    private val _clickedParkInfo = SingleLiveEvent<ParkInfo>()
+    val clickedParkInfo: LiveData<ParkInfo> = _clickedParkInfo
 
 
     fun requestParkInfo(numOfRows: Int) {
@@ -136,6 +142,22 @@ class ParkInfoViewModel @Inject constructor(
                 )
         )
     }
+
+    //계산한 거리 단위(km, m)로 변환
+    fun getDistanceStr(distance: Double): String {
+
+        val distanceStr: String = if (distance > 1000) { //1km 이상
+            (distance / 1000).roundToInt().toString() + "km"
+        } else { //소수점 버림
+            floor(distance).toString() + "m"
+        }
+        return distanceStr
+    }
+
+    fun onClickParkInfo(parkInfo: ParkInfo) {
+        _clickedParkInfo.value = parkInfo
+    }
+
 
     enum class MessageSet {
         NETWORK_NOT_CONNECTED,
