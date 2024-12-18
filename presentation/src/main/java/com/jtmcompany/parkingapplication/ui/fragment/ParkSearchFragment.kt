@@ -1,6 +1,7 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -51,7 +52,6 @@ class ParkSearchFragment :
                 return@Observer;
             }
             val keyword = binding.editKeword.text.toString()
-
             val filteredParks = viewModel.filterParkList(
                 parkInfoList,
                 keyword,
@@ -85,13 +85,14 @@ class ParkSearchFragment :
 
 
     private fun onComplete(searchResultList: List<ParkInfo>) {
+        var sortedList = searchResultList
         if (searchResultList.isEmpty()) {
             binding.layoutNoData.visibility = View.VISIBLE
         } else {
-            searchResultList.sortedBy { it.distance }
+            sortedList =searchResultList.sortedBy { it.distance }
         }
 
-        parkListAdapter.submitList(searchResultList)
+        parkListAdapter.submitList(sortedList)
     }
 
     private fun initRecyclerAdapter() {

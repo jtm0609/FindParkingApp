@@ -43,5 +43,6 @@ class ParkListAdapter(private val viewModel: ParkInfoViewModel) :
 
     fun submitList(list : List<ParkInfo>) {
         parkList = list
+        notifyDataSetChanged()
     }
 }

@@ -36,8 +36,8 @@ data class ParkInfo (
     var spcmnt: String?, // 특기사항
     var institutionNm: String?, // 관리기관명
     var phoneNumber: String?, // 전화번호
-    var latitude: String?, // 위도
-    var longitude: String?, // 경도
+    var latitude: String, // 위도
+    var longitude: String, // 경도
     var referenceDate: String?, // 데이터기준일자
     var instt_code: String?, // 제공기관코드
     var instt_nm: String?, // 제공기관기관명

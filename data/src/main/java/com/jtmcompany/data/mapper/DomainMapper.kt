@@ -45,8 +45,8 @@ object DomainMapper {
                 result.spcmnt, // 특기사항
                 result.institutionNm, // 관리기관명
                 result.phoneNumber, // 전화번호
-                result.latitude, // 위도
-                result.longitude, // 경도
+                result.latitude.takeIf { !it.isNullOrEmpty()} ?:"0", // 위도
+                result.longitude.takeIf {!it.isNullOrEmpty() } ?:"0", // 경도
                 result.referenceDate, // 데이터기준일자
                 result.instt_code, // 제공기관코드
                 result.instt_nm, // 제공기관기관명
@@ -85,8 +85,8 @@ object DomainMapper {
             spcmnt, // 특기사항
             institutionNm, // 관리기관명
             phoneNumber, // 전화번호
-            latitude, // 위도
-            longitude, // 경도
+            latitude.takeIf { !it.isNullOrEmpty()} ?:"0", // 위도
+            longitude.takeIf {!it.isNullOrEmpty()} ?:"0", // 경도
             referenceDate, // 데이터기준일자
             instt_code, // 제공기관코드
             instt_nm, // 제공기관기관명

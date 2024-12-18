@@ -20,7 +20,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, ParkInfoViewModel>(R.
     private val perRequestCode = 1000
 
     override fun initObserver() {
-        TODO("Not yet implemented")
     }
 
     override fun initView() {

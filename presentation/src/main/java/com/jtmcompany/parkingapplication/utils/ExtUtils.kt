@@ -5,7 +5,7 @@ import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.utils.Constants.NONE_DISTANCE
 
 fun ParkInfo.applyDistance(lat1: Double, lng1: Double, lat2: Double, lng2: Double): ParkInfo {
-    if(latitude.isNullOrEmpty() || longitude.isNullOrEmpty()){
+    if(latitude=="0" || longitude=="0"){
         distance = NONE_DISTANCE.toDouble()
     }else {
         val locationA = Location("point A")

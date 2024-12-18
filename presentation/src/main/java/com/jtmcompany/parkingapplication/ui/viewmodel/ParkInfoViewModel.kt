@@ -48,8 +48,7 @@ class ParkInfoViewModel @Inject constructor(
     val clickedParkSearch: LiveData<Unit> = _clickedParkSearch
 
     // toast 메시지
-    private val _keyword = MutableLiveData<String>()
-    val keyword: LiveData<String> get() = _keyword
+    var keyword = MutableLiveData<String>()
 
 
     fun requestParkInfo(numOfRows: Int) {
@@ -72,7 +71,7 @@ class ParkInfoViewModel @Inject constructor(
 
                     }
                 }, {
-                    Log.d("tak", "throwable: " + it.message)
+                    Log.d("tak", "requestParkInfo throwable: " + it.message)
                 })
         )
     }
@@ -90,7 +89,7 @@ class ParkInfoViewModel @Inject constructor(
                         _parkLocalList.value = parks as ArrayList<ParkInfo>
                     }
                 }) {
-                    Log.d("tak", "throwable: " + it.message)
+                    Log.d("tak", "requestLocalPark throwable: " + it.message)
                 })
     }
 
@@ -105,17 +104,16 @@ class ParkInfoViewModel @Inject constructor(
     ): List<ParkInfo> {
         return parkInfoList.filter { parkInfo ->
             val matchesKeyword = checkMatchKeyword(parkInfo, keyword)
-            val matchesSection = parkInfo.prkplceSe == sectionOption
-            val matchesType = parkInfo.prkplceType == typeOption
-            val matchesCharge = parkInfo.parkingchrgeInfo == chargeOption
-
+            val matchesSection = sectionOption == "주차장구분" || parkInfo.prkplceSe == sectionOption
+            val matchesType = typeOption == "주차장유형" ||  parkInfo.prkplceType == typeOption
+            val matchesCharge = chargeOption == "요금정보" || parkInfo.parkingchrgeInfo == chargeOption
             matchesKeyword && matchesSection && matchesType && matchesCharge
         }.map { parkInfo ->
             parkInfo.applyDistance(
                 userLatitude,
                 userLongitude,
-                parkInfo.latitude!!.toDouble(),
-                parkInfo.longitude!!.toDouble())
+                parkInfo.latitude.toDouble(),
+                parkInfo.longitude.toDouble())
         }
     }
 
