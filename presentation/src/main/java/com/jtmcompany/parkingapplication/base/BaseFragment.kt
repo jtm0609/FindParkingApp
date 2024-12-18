@@ -48,6 +48,7 @@ abstract class BaseFragment<B: ViewDataBinding, VM: BaseViewModel>(
         super.onViewCreated(view, savedInstanceState)
         initBinding()
         initObserver()
+        initBaseObserver()
         initView()
     }
 
@@ -55,6 +56,14 @@ abstract class BaseFragment<B: ViewDataBinding, VM: BaseViewModel>(
         setBindingVariable(binding)
         binding.lifecycleOwner = this
         binding.executePendingBindings()
+    }
+
+    private fun initBaseObserver() {
+        with(viewModel) {
+            showToastEvent.observe(viewLifecycleOwner) { _msg ->
+                showToast(_msg)
+            }
+        }
     }
 
     protected fun showToast(msg: String) =

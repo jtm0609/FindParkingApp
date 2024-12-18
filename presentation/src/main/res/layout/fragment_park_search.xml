@@ -78,6 +78,7 @@
                 android:background="@drawable/edit_normal_bg"
                 android:hint="@string/msg_hint_search_park"
                 android:textColorHint="@color/color_dddddd"
+                android:text="@={viewModel.keyword}"
                 />
 
             <Button
@@ -89,7 +90,8 @@
                 android:textStyle="bold"
                 android:textColor="@color/color_ffffff"
                 android:text="@string/msg_search"
-                android:background="@drawable/button_normal_selector"/>
+                android:background="@drawable/button_normal_selector"
+                android:onClick="@{()->viewModel.onClickParkSearch()}"/>
         </LinearLayout>
 
         <View

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jtmcompany.parkingapplication.utils.SingleLiveEvent
 import io.reactivex.disposables.CompositeDisposable
 
 
@@ -14,14 +15,21 @@ abstract class BaseViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    fun showProgress() {
+    private val _showToastEvent = SingleLiveEvent<String>()
+    val showToastEvent: LiveData<String> = _showToastEvent
+
+    protected fun showProgress() {
         Log.d("tak","showProgress!")
         _isLoading.value = true
     }
 
-    fun hideProgress() {
+    protected fun hideProgress() {
         Log.d("tak","hideProgress!")
         _isLoading.value = false
+    }
+
+    protected fun showToast(msg: String) {
+        _showToastEvent.postValue(msg)
     }
 
     override fun onCleared() {

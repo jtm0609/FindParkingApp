@@ -9,9 +9,12 @@ import com.jtmcompany.domain.usecase.GetLocalParkInfoUsecase
 import com.jtmcompany.domain.usecase.GetParkInfoUsecase
 import com.jtmcompany.domain.usecase.GetParkOperInfoUsecase
 import com.jtmcompany.domain.usecase.InsertLocalParkUsecase
+import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseViewModel
 import com.jtmcompany.parkingapplication.utils.NetworkManager
+import com.jtmcompany.parkingapplication.utils.ResourceProvider
 import com.jtmcompany.parkingapplication.utils.SingleLiveEvent
+import com.jtmcompany.parkingapplication.utils.applyDistance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -25,7 +28,9 @@ class ParkInfoViewModel @Inject constructor(
     private val getParkOperInfoUsecase: GetParkOperInfoUsecase,
     private val getLocalParkInfoUsecase: GetLocalParkInfoUsecase,
     private val insertLocalParkUsecase: InsertLocalParkUsecase,
-    private val networkManager: NetworkManager
+    private val networkManager: NetworkManager,
+    private val resourceProvider: ResourceProvider
+
 ) : BaseViewModel() {
 
     //주차장 정보가 저장되는 변수
@@ -50,6 +55,13 @@ class ParkInfoViewModel @Inject constructor(
     private val _clickedParkInfo = SingleLiveEvent<ParkInfo>()
     val clickedParkInfo: LiveData<ParkInfo> = _clickedParkInfo
 
+    private val _clickedParkSearch = SingleLiveEvent<Unit>()
+    val clickedParkSearch: LiveData<Unit> = _clickedParkSearch
+
+    // toast 메시지
+    private val _keyword = MutableLiveData<String>()
+    val keyword: LiveData<String> get() = _keyword
+
 
     fun requestParkInfo(numOfRows: Int) {
         if (!networkManager.checkNetworkState()) {
@@ -66,11 +78,11 @@ class ParkInfoViewModel @Inject constructor(
                     if (list.isEmpty()) {
                         _toastMsg.value = MessageSet.NO_RESULT
                     } else {
-                        if(numOfRows==1){
+                        if (numOfRows == 1) {
                             Log.d("tak", "Success1")
-                            _totalCnt.value=list.get(0).totalCnt.toInt()
+                            _totalCnt.value = list.get(0).totalCnt.toInt()
                             _toastMsg.value = MessageSet.REMOTE_CHECK_SUCCESS
-                        }else {
+                        } else {
                             Log.d("tak", "Success2")
                             _parkList.value = list as ArrayList<ParkInfo>
                             _toastMsg.value = MessageSet.REMOTE_SUCCESS
@@ -84,31 +96,8 @@ class ParkInfoViewModel @Inject constructor(
         )
     }
 
-    fun requestParkOperInfo() {
-        if (!networkManager.checkNetworkState()) {
-            _toastMsg.value = MessageSet.NETWORK_NOT_CONNECTED
-            return
-        };
-        compositeDisposable.add(
-            getParkOperInfoUsecase()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { showProgress() }
-                .doOnNext { hideProgress() }
-                .subscribe({ parkOpers ->
-                    if (parkOpers.isEmpty()) {
-                        _toastMsg.value = MessageSet.NO_RESULT
-                    } else {
-                        _parkOperList.value = parkOpers as ArrayList<ParkOperInfo>
-                        _toastMsg.value = MessageSet.REMOTE_SUCCESS
-                    }
-                }, {
-                    _toastMsg.value = MessageSet.ERROR
-                })
-        )
-    }
 
-    fun requestLocalPark() {
+    private fun requestLocalPark() {
         compositeDisposable.add(
             getLocalParkInfoUsecase()
                 .subscribeOn(Schedulers.io())
@@ -117,16 +106,51 @@ class ParkInfoViewModel @Inject constructor(
                 .doOnNext { hideProgress() }
                 .subscribe({ parks ->
                     if (parks.isEmpty()) {
-                        _toastMsg.value = MessageSet.ERROR
+                        //_toastMsg.value = MessageSet.ERROR
                     } else {
                         _parkLocalList.value = parks as ArrayList<ParkInfo>
                         _toastMsg.value = MessageSet.LOCAL_SUCCESS
                     }
                 }) {
                     Log.d("tak", "test: " + it.message)
-                    _toastMsg.value = MessageSet.ERROR
+                    //_toastMsg.value = MessageSet.ERROR
                 })
     }
+
+    fun filterParkList(
+        parkInfoList: List<ParkInfo>,
+        keyword: String,
+        sectionOption: String,
+        typeOption: String,
+        chargeOption: String,
+        userLatitude: Double,
+        userLongitude: Double
+    ): List<ParkInfo> {
+        return parkInfoList.filter { parkInfo ->
+            val matchesKeyword = checkMatchKeyword(parkInfo, keyword)
+            val matchesSection = parkInfo.prkplceSe == sectionOption
+            val matchesType = parkInfo.prkplceType == typeOption
+            val matchesCharge = parkInfo.parkingchrgeInfo == chargeOption
+
+            matchesKeyword && matchesSection && matchesType && matchesCharge
+        }.map { parkInfo ->
+            parkInfo.applyDistance(
+                userLatitude,
+                userLongitude,
+                parkInfo.latitude!!.toDouble(),
+                parkInfo.longitude!!.toDouble())
+        }
+    }
+
+
+    private fun checkMatchKeyword(parkInfo: ParkInfo, keyword: String): Boolean {
+        return parkInfo.run {
+            prkplceNm?.contains(keyword, ignoreCase = true) == true ||
+                    rdnmadr?.contains(keyword, ignoreCase = true) == true ||
+                    lnmadr?.contains(keyword, ignoreCase = true) == true
+        }
+    }
+
 
     fun insertLocalPark(parks: List<ParkInfo>) {
         compositeDisposable.add(
@@ -156,6 +180,23 @@ class ParkInfoViewModel @Inject constructor(
 
     fun onClickParkInfo(parkInfo: ParkInfo) {
         _clickedParkInfo.value = parkInfo
+    }
+
+    fun onClickParkSearch() {
+
+        val keywordText = keyword.value ?: ""
+        if (keywordText.isEmpty()) {
+            showToast(resourceProvider.getString(R.string.msg_check_empty_park_))
+            return
+        }
+
+        if (keywordText.length < 2) {
+            showToast(resourceProvider.getString(R.string.msg_check_word_count))
+            return
+        }
+        _clickedParkSearch.call()
+
+        requestLocalPark()
     }
 
 
