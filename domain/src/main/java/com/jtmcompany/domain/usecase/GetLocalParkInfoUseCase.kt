@@ -5,7 +5,7 @@ import com.jtmcompany.repository.ParkRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class GetLocalParkInfoUsecase @Inject constructor(private val repository: ParkRepository){
+class GetLocalParkInfoUseCase @Inject constructor(private val repository: ParkRepository){
     operator fun invoke(): Flowable<List<ParkInfo>> = repository.getLocalParkInfo()
 
 }

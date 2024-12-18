@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.domain.usecase.GetLocalParkInfoUsecase
-import com.jtmcompany.domain.usecase.GetParkInfoUsecase
-import com.jtmcompany.domain.usecase.InsertLocalParkUsecase
+import com.jtmcompany.domain.usecase.GetLocalParkInfoUseCase
+import com.jtmcompany.domain.usecase.GetParkInfoUseCase
+import com.jtmcompany.domain.usecase.InsertLocalParkUseCase
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseViewModel
 import com.jtmcompany.parkingapplication.utils.NetworkManager
@@ -22,9 +22,9 @@ import kotlin.math.roundToInt
 
 @HiltViewModel
 class ParkInfoViewModel @Inject constructor(
-    private val getParkInfoUsecase: GetParkInfoUsecase,
-    private val getLocalParkInfoUsecase: GetLocalParkInfoUsecase,
-    private val insertLocalParkUsecase: InsertLocalParkUsecase,
+    private val getParkInfoUsecase: GetParkInfoUseCase,
+    private val getLocalParkInfoUsecase: GetLocalParkInfoUseCase,
+    private val insertLocalParkUsecase: InsertLocalParkUseCase,
     private val networkManager: NetworkManager,
     private val resourceProvider: ResourceProvider
 
