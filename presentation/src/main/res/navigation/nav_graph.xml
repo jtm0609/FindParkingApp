@@ -34,11 +34,19 @@
         tools:layout="@layout/fragment_park_search">
         <action
             android:id="@+id/action_parkSearchFragment_to_parkDetailFragment"
-            app:destination="@id/parkDetailFragment" />
+            app:destination="@id/parkDetailFragment" >
+        </action>
+
+
     </fragment>
     <fragment
         android:id="@+id/parkDetailFragment"
         android:name="com.jtmcompany.parkingapplication.ui.fragment.ParkDetailFragment"
-        android:label="ParkDetailFragment" />
+        android:label="ParkDetailFragment" >
+
+        <argument
+            android:name="parkInfo"
+            app:argType="com.jtmcompany.domain.model.ParkInfo" />
+    </fragment>
 
 </navigation>

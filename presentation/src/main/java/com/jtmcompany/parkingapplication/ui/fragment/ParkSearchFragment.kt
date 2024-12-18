@@ -14,7 +14,6 @@ import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkSearchBinding
-import com.jtmcompany.parkingapplication.utils.Constants.KEY_SELECT_PARK_INFO
 import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
 import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
@@ -66,11 +65,10 @@ class ParkSearchFragment :
         })
 
         viewModel.clickedParkInfo.observe(viewLifecycleOwner) { parkInfo ->
-            val bundle = bundleOf(KEY_SELECT_PARK_INFO to parkInfo)
-            findNavController().navigate(
-                R.id.action_parkSearchFragment_to_parkDetailFragment,
-                bundle
+            val action = ParkSearchFragmentDirections.actionParkSearchFragmentToParkDetailFragment(
+                parkInfo
             )
+            nextFragment(action)
         }
 
         viewModel.clickedParkSearch.observe(viewLifecycleOwner) {

@@ -47,6 +47,9 @@ class ParkInfoViewModel @Inject constructor(
     private val _clickedParkSearch = SingleLiveEvent<Unit>()
     val clickedParkSearch: LiveData<Unit> = _clickedParkSearch
 
+    private val _clickedGetDirection = SingleLiveEvent<Unit>()
+    val clickedGetDirection: LiveData<Unit> = _clickedGetDirection
+
     // toast 메시지
     var keyword = MutableLiveData<String>()
 
@@ -172,5 +175,9 @@ class ParkInfoViewModel @Inject constructor(
         _clickedParkSearch.call()
 
         requestLocalPark()
+    }
+
+    fun onClickGetDirection() {
+        _clickedGetDirection.call()
     }
 }
