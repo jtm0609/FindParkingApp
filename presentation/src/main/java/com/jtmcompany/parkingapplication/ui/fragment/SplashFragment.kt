@@ -14,14 +14,16 @@ import com.jtmcompany.parkingapplication.databinding.FragmentSplashBinding
 import com.jtmcompany.parkingapplication.utils.Constants
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
 
-class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_splash) {
+class SplashFragment : BaseFragment<FragmentSplashBinding, ParkInfoViewModel>(R.layout.fragment_splash) {
 
-    private val viewModel : ParkInfoViewModel by activityViewModels()
+    override val viewModel : ParkInfoViewModel by activityViewModels()
     private val perRequestCode = 1000
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.vm = viewModel
 
+    override fun initObserver() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initView() {
         Handler(Looper.getMainLooper()).postDelayed({
             if(!checkPermission()){
                 requestPermission()
@@ -30,6 +32,13 @@ class SplashFragment : BaseFragment<FragmentSplashBinding>(R.layout.fragment_spl
             }
         }, Constants.LOADING_DELAY)
     }
+
+    override fun setBindingVariable(binding: FragmentSplashBinding) {
+        with(binding){
+            viewModel = this@SplashFragment.viewModel
+        }
+    }
+
 
     private fun requestPermission(){
         requestPermissions(

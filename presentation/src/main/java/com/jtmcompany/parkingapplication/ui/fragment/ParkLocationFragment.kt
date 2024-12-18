@@ -18,10 +18,10 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 class ParkLocationFragment :
-    BaseFragment<FragmentParkLocationBinding>(R.layout.fragment_park_location),
+    BaseFragment<FragmentParkLocationBinding, ParkInfoViewModel>(R.layout.fragment_park_location),
     View.OnClickListener, MapView.CurrentLocationEventListener {
 
-    private val viewModel: ParkInfoViewModel by activityViewModels()
+    override val viewModel: ParkInfoViewModel by activityViewModels()
     private lateinit var mapView: MapView
 
     //현재 사용자의 위치(위도)
@@ -32,23 +32,21 @@ class ParkLocationFragment :
 
     //DB 업데이트가 필요한 경우
     private var isNeedUpdateDB = false
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.vm = viewModel
-        intLayout()
-        initMapView()
-        //initViewModelCallback()
-        initObserver()
+    override fun setBindingVariable(binding: FragmentParkLocationBinding) {
+        with(binding){
+            viewModel = this@ParkLocationFragment.viewModel
+        }
+    }
 
+
+    override fun initView() {
+        binding.layoutSearch.setOnClickListener(this)
+        initMapView()
         //주차장 정보를 가져온다.
         viewModel.requestParkInfo(1)
     }
 
-    private fun intLayout() {
-        binding.layoutSearch.setOnClickListener(this)
-    }
-
-    private fun initObserver() {
+    override fun initObserver() {
         viewModel.totalCntCheck.observe(viewLifecycleOwner, Observer {
             val apiTotalCnt = it
             val localTotalCnt = PrefManager.getInt(mContext, "park_total_cnt")
@@ -71,54 +69,6 @@ class ParkLocationFragment :
                 isNeedUpdateDB = false
             }
         })
-
-    }
-
-    private fun initViewModelCallback() {
-        with(viewModel) {
-            //toastMsg가 변경 시 , 변경된 text로 toas를 띄워준다.
-            toastMsg.observe(this@ParkLocationFragment, Observer {
-                when (toastMsg.value) {
-                    ParkInfoViewModel.MessageSet.NO_RESULT -> showToast(
-                        getString(
-                            R.string.no_result_msg
-                        )
-                    )
-
-                    ParkInfoViewModel.MessageSet.NETWORK_NOT_CONNECTED -> showToast(
-                        getString(
-                            R.string.not_connectied_network
-                        )
-                    )
-
-                    ParkInfoViewModel.MessageSet.REMOTE_SUCCESS -> showToast(
-                        getString(
-                            R.string.api_success_msg
-                        )
-                    )
-
-                    ParkInfoViewModel.MessageSet.REMOTE_CHECK_SUCCESS -> showToast(
-                        getString(
-                            R.string.api_check_success_msg
-                        )
-                    )
-
-                    ParkInfoViewModel.MessageSet.LOCAL_SUCCESS -> showToast(
-                        getString(
-                            R.string.db_success_msg
-                        )
-                    )
-
-                    ParkInfoViewModel.MessageSet.ERROR -> showToast(
-                        getString(
-                            R.string.api_error_msg
-                        )
-                    )
-
-                    else -> {}
-                }
-            })
-        }
     }
 
     private fun initMapView() {

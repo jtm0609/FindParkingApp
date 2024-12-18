@@ -6,7 +6,7 @@
     <data>
         <import type="android.view.View"/>
         <variable
-            name="vm"
+            name="viewModel"
             type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel" />
     </data>
 

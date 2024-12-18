@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel" />
     </data>
 
     <LinearLayout

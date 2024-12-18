@@ -29,22 +29,19 @@ import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 
-class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.fragment_park_search),
+class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding, ParkInfoViewModel>(R.layout.fragment_park_search),
     View.OnClickListener, ItemClickListener {
 
-    private val viewModel: ParkInfoViewModel by activityViewModels()
+    override val viewModel: ParkInfoViewModel by activityViewModels()
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.vm = viewModel
-        initLayout()
-        initObserver()
-
+    override fun setBindingVariable(binding: FragmentParkSearchBinding) {
+        with(binding) {
+            viewModel = this@ParkSearchFragment.viewModel
+        }
     }
 
-    private fun initLayout() {
+    override fun initView() {
         binding.spParkSection.adapter = getSpinnerAdpater(R.array.parking_lot_section)
         binding.spParkType.adapter = getSpinnerAdpater(R.array.parking_lot_type)
         binding.spParkCharge.adapter = getSpinnerAdpater(R.array.parking_charge_info)
@@ -69,7 +66,7 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
         return adapter
     }
 
-    private fun initObserver() {
+    override fun initObserver() {
         viewModel.parkLocalList.observe(viewLifecycleOwner, Observer { parkInfoList ->
             if(binding.editKeword.text.toString().isEmpty()){
                 return@Observer;
@@ -146,6 +143,7 @@ class ParkSearchFragment : BaseFragment<FragmentParkSearchBinding>(R.layout.frag
             onComplete(searchResultList)
         })
     }
+
 
     private fun onComplete(searchResultList: ArrayList<ParkInfo>) {
         if(searchResultList.size == 0){

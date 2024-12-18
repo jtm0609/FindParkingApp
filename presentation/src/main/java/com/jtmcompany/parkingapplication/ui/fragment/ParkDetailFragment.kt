@@ -2,23 +2,34 @@ package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkDetailBinding
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
 import com.jtmcompany.parkingapplication.utils.Constants
 import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
 
 
-class ParkDetailFragment : BaseFragment<FragmentParkDetailBinding>(R.layout.fragment_park_detail),
+class ParkDetailFragment : BaseFragment<FragmentParkDetailBinding, ParkInfoViewModel>(R.layout.fragment_park_detail),
     View.OnClickListener {
     private lateinit var parkInfo: ParkInfo
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initLayout()
+
+    override val viewModel: ParkInfoViewModel by viewModels()
+
+    override fun initObserver() {
+        TODO("Not yet implemented")
     }
 
-    private fun initLayout() {
+
+    override fun setBindingVariable(binding: FragmentParkDetailBinding) {
+        with(binding){
+            viewModel = this@ParkDetailFragment.viewModel
+        }
+    }
+
+    override fun initView() {
         arguments?.let {
             parkInfo = it.getSerializable(Constants.KEY_SELECT_PARK_INFO) as ParkInfo
             binding.txtParkingLotName.text = parkInfo.prkplceNm
