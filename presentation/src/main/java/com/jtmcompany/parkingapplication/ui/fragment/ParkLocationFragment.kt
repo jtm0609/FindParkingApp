@@ -50,8 +50,7 @@ class ParkLocationFragment :
         viewModel.totalCntCheck.observe(viewLifecycleOwner, Observer {
             val apiTotalCnt = it
             val localTotalCnt = PrefManager.getInt(mContext, "park_total_cnt")
-            Log.d("tak","localTotalCnt: "+localTotalCnt)
-            Log.d("tak","apiTotalCnt: "+it)
+
             //주차장 totalCnt(서버 정보)가 변경 되었을 때 or 앱 최초 진입시 전체 주차장 정보 서버로부터 불러오기
             if (apiTotalCnt != localTotalCnt) {
                 PrefManager.setInt(mContext, "park_total_cnt", apiTotalCnt)
@@ -62,7 +61,6 @@ class ParkLocationFragment :
 
         //서버로부터 주차장 정보 가져오기
         viewModel.parkList.observe(viewLifecycleOwner, Observer {
-            Log.d("tak", "receive! All Park response, size: "+it.size)
             //DB저장
             if(isNeedUpdateDB) {
                 viewModel.insertLocalPark(it)

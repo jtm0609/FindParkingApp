@@ -31,10 +31,6 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        val gson: Gson = GsonBuilder()
-            .setLenient()
-            .create()
-
         val parser = TikXml.Builder().exceptionOnUnreadXml(false).build()
 
         return Retrofit.Builder()

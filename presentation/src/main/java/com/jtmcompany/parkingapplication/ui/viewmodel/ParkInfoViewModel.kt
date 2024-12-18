@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.domain.model.ParkOperInfo
 import com.jtmcompany.domain.usecase.GetLocalParkInfoUsecase
 import com.jtmcompany.domain.usecase.GetParkInfoUsecase
-import com.jtmcompany.domain.usecase.GetParkOperInfoUsecase
 import com.jtmcompany.domain.usecase.InsertLocalParkUsecase
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseViewModel
@@ -25,7 +23,6 @@ import kotlin.math.roundToInt
 @HiltViewModel
 class ParkInfoViewModel @Inject constructor(
     private val getParkInfoUsecase: GetParkInfoUsecase,
-    private val getParkOperInfoUsecase: GetParkOperInfoUsecase,
     private val getLocalParkInfoUsecase: GetLocalParkInfoUsecase,
     private val insertLocalParkUsecase: InsertLocalParkUsecase,
     private val networkManager: NetworkManager,
@@ -37,20 +34,12 @@ class ParkInfoViewModel @Inject constructor(
     private val _parkList = MutableLiveData<ArrayList<ParkInfo>>()
     val parkList: LiveData<ArrayList<ParkInfo>> get() = _parkList
 
-    //주차장 운영 정보가 저장되는 변수
-    private val _parkOperList = MutableLiveData<ArrayList<ParkOperInfo>>()
-    val parkOperList: LiveData<ArrayList<ParkOperInfo>> get() = _parkOperList
-
     //주차장 정보가 저장되는 변수
     private val _parkLocalList = MutableLiveData<ArrayList<ParkInfo>>()
     val parkLocalList: LiveData<ArrayList<ParkInfo>> get() = _parkLocalList
 
     private val _totalCnt = MutableLiveData<Int>()
     val totalCntCheck: LiveData<Int> get() = _totalCnt
-
-    // toast 메시지
-    private val _toastMsg = MutableLiveData<MessageSet>()
-    val toastMsg: LiveData<MessageSet> get() = _toastMsg
 
     private val _clickedParkInfo = SingleLiveEvent<ParkInfo>()
     val clickedParkInfo: LiveData<ParkInfo> = _clickedParkInfo
@@ -65,7 +54,6 @@ class ParkInfoViewModel @Inject constructor(
 
     fun requestParkInfo(numOfRows: Int) {
         if (!networkManager.checkNetworkState()) {
-            _toastMsg.value = MessageSet.NETWORK_NOT_CONNECTED
             return
         };
         compositeDisposable.add(
@@ -75,23 +63,16 @@ class ParkInfoViewModel @Inject constructor(
                 .doOnSubscribe { showProgress() }
                 .doOnNext { hideProgress() }
                 .subscribe({ list ->
-                    if (list.isEmpty()) {
-                        _toastMsg.value = MessageSet.NO_RESULT
-                    } else {
+                    if (list.isNotEmpty()) {
                         if (numOfRows == 1) {
-                            Log.d("tak", "Success1")
-                            _totalCnt.value = list.get(0).totalCnt.toInt()
-                            _toastMsg.value = MessageSet.REMOTE_CHECK_SUCCESS
+                            _totalCnt.value = list[0].totalCnt.toInt()
                         } else {
-                            Log.d("tak", "Success2")
                             _parkList.value = list as ArrayList<ParkInfo>
-                            _toastMsg.value = MessageSet.REMOTE_SUCCESS
                         }
 
                     }
                 }, {
-                    Log.d("tak", "test: " + it.message)
-                    _toastMsg.value = MessageSet.ERROR
+                    Log.d("tak", "throwable: " + it.message)
                 })
         )
     }
@@ -105,15 +86,11 @@ class ParkInfoViewModel @Inject constructor(
                 .doOnSubscribe { showProgress() }
                 .doOnNext { hideProgress() }
                 .subscribe({ parks ->
-                    if (parks.isEmpty()) {
-                        //_toastMsg.value = MessageSet.ERROR
-                    } else {
+                    if (parks.isNotEmpty()) {
                         _parkLocalList.value = parks as ArrayList<ParkInfo>
-                        _toastMsg.value = MessageSet.LOCAL_SUCCESS
                     }
                 }) {
-                    Log.d("tak", "test: " + it.message)
-                    //_toastMsg.value = MessageSet.ERROR
+                    Log.d("tak", "throwable: " + it.message)
                 })
     }
 
@@ -198,16 +175,4 @@ class ParkInfoViewModel @Inject constructor(
 
         requestLocalPark()
     }
-
-
-    enum class MessageSet {
-        NETWORK_NOT_CONNECTED,
-        ERROR,
-        REMOTE_CHECK_SUCCESS,
-        REMOTE_SUCCESS,
-        LOCAL_SUCCESS,
-        NO_RESULT
-    }
-
-
 }

@@ -1,6 +1,5 @@
 package com.jtmcompany.data.api
 
-import com.jtmcompany.data.data.response.ParkOperInfoDTO
 import com.jtmcompany.data.data.response.ParkInfoDTO
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -18,7 +17,4 @@ interface ApiInterface {
         @Query("numOfRows") numOfRows: Int,
     ): Single<ParkInfoDTO>
 
-
-    @GET("PrkOprInfo")
-    fun getParkOperInfoApi(): Single<ParkOperInfoDTO>
 }

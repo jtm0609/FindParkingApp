@@ -22,15 +22,4 @@ abstract class BaseActivity<B : ViewDataBinding>(
         binding.lifecycleOwner = this
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    protected fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

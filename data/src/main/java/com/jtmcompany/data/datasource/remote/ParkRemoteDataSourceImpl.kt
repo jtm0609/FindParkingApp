@@ -4,7 +4,6 @@ import android.content.Context
 import com.jtmcompany.data.R
 import com.jtmcompany.data.api.ApiInterface
 import com.jtmcompany.data.data.response.ParkInfoDTO
-import com.jtmcompany.data.data.response.ParkOperInfoDTO
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -21,9 +20,4 @@ class ParkRemoteDataSourceImpl @Inject constructor(
     override fun getParkInfo(numOfRows: Int): Single<ParkInfoDTO> {
         return apiInterface.getParkInfoApi(context.getString(R.string.api_key),1,numOfRows)
     }
-
-    override fun getParkOperInfo(): Single<ParkOperInfoDTO> {
-        return apiInterface.getParkOperInfoApi()
-    }
-
 }

@@ -19,12 +19,10 @@ abstract class BaseViewModel : ViewModel() {
     val showToastEvent: LiveData<String> = _showToastEvent
 
     protected fun showProgress() {
-        Log.d("tak","showProgress!")
         _isLoading.value = true
     }
 
     protected fun hideProgress() {
-        Log.d("tak","hideProgress!")
         _isLoading.value = false
     }
 

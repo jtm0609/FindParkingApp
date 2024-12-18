@@ -1,6 +1,5 @@
 package com.jtmcompany.parkingapplication.adapter
 
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,8 +8,6 @@ import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.databinding.ItemParkingBinding
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
-import com.jtmcompany.parkingapplication.utils.Constants
-import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
 
 class ParkListAdapter(private val viewModel: ParkInfoViewModel) :
     RecyclerView.Adapter<ParkListAdapter.ViewHolder>() {

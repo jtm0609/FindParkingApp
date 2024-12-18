@@ -2,9 +2,7 @@ package com.jtmcompany.data.mapper
 
 import com.jtmcompany.data.data.entity.response.local.ParkEntity
 import com.jtmcompany.data.data.response.ParkInfoDTO
-import com.jtmcompany.data.data.response.ParkOperInfoDTO
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.domain.model.ParkOperInfo
 
 /**
  * Data Entity to Data Model
@@ -53,25 +51,6 @@ object DomainMapper {
                 result.instt_code, // 제공기관코드
                 result.instt_nm, // 제공기관기관명
                 body.totalCount
-            )
-        }
-    }
-
-    fun ParkOperInfoDTO.toDomainModel() : List<ParkOperInfo> {
-        return parkOperInfo.map { result ->
-            ParkOperInfo(
-                result.id,
-                result.sunday,
-                result.monday,
-                result.tuesday,
-                result.wednesday,
-                result.thursday,
-                result.friday,
-                result.saturday,
-                result.holiday,
-                result.defaultFreeTime,
-                result.basicInfo,
-                result.subscribePriceInfo
             )
         }
     }

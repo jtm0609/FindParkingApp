@@ -1,7 +1,6 @@
 package com.jtmcompany.data.datasource.remote
 
 import com.jtmcompany.data.data.response.ParkInfoDTO
-import com.jtmcompany.data.data.response.ParkOperInfoDTO
 import io.reactivex.Single
 
 /**
@@ -10,6 +9,4 @@ import io.reactivex.Single
  */
 interface ParkRemoteDataSource {
     fun getParkInfo(numOfRows: Int) : Single<ParkInfoDTO>
-
-    fun getParkOperInfo(): Single<ParkOperInfoDTO>
 }

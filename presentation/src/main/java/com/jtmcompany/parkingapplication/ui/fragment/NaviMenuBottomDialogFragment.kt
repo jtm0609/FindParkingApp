@@ -28,7 +28,7 @@ class NaviMenuBottomDialogFragment(private val parkInfo: ParkInfo) : BottomSheet
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             inflater,
@@ -56,12 +56,12 @@ class NaviMenuBottomDialogFragment(private val parkInfo: ParkInfo) : BottomSheet
                 tMap.setSKTMapAuthentication(getString(R.string.tmap_native_app_key))
                 tMap.setOnAuthenticationListener(object : OnAuthenticationListenerCallback {
                     override fun SKTMapApikeySucceed() {
-                        Log.d("tak","isInstalled?: "+tMap.isTmapApplicationInstalled)
+                        Log.d("tak","TMAP SDK IS INSTALLED?: "+tMap.isTmapApplicationInstalled)
                         executeTmap(tMap)
                     }
 
                     override fun SKTMapApikeyFailed(p0: String?) {
-                        Log.d("tak","fail: "+p0.toString())
+                        Log.d("tak","TMAP SDK FAIL: "+p0.toString())
                     }
 
                 })
@@ -94,7 +94,7 @@ class NaviMenuBottomDialogFragment(private val parkInfo: ParkInfo) : BottomSheet
         }
     }
 
-    fun executeKakaoNavi(){
+    private fun executeKakaoNavi(){
         if (NaviClient.instance.isKakaoNaviInstalled(requireContext())) {
             parkInfo.let {
                 activity?.startActivity(

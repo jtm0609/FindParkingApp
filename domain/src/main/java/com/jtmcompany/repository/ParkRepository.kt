@@ -1,7 +1,6 @@
 package com.jtmcompany.repository
 
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.domain.model.ParkOperInfo
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -12,7 +11,6 @@ import io.reactivex.Flowable
 interface ParkRepository {
     fun getRemoteParkInfo(numOfRows: Int): Flowable<List<ParkInfo>>
 
-    fun getRemoteParkOperInfo(): Flowable<List<ParkOperInfo>>
 
     fun getLocalParkInfo(): Flowable<List<ParkInfo>>
 

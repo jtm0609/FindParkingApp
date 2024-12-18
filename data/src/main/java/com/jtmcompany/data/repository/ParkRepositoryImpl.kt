@@ -6,7 +6,6 @@ import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
 import com.jtmcompany.data.mapper.DataMapper.toDataModel
 import com.jtmcompany.data.mapper.DomainMapper.toDomainModel
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.domain.model.ParkOperInfo
 import com.jtmcompany.repository.ParkRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -36,12 +35,6 @@ class ParkRepositoryImpl @Inject constructor(
             // 변환된 데이터를 출력합니다.
             Log.d("tak", "mappingData: $mappingData")
             Log.d("tak", "mappingData size: ${mappingData.size}")
-        }
-    }
-
-    override fun getRemoteParkOperInfo(): Flowable<List<ParkOperInfo>> {
-        return parkRemoteDataSource.getParkOperInfo().toFlowable().map {
-            it.toDomainModel()
         }
     }
 

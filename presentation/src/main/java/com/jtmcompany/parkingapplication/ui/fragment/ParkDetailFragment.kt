@@ -1,6 +1,5 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
-import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.jtmcompany.domain.model.ParkInfo
@@ -9,7 +8,6 @@ import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkDetailBinding
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
 import com.jtmcompany.parkingapplication.utils.Constants
-import com.jtmcompany.parkingapplication.utils.GeoDistanceManager
 
 
 class ParkDetailFragment : BaseFragment<FragmentParkDetailBinding, ParkInfoViewModel>(R.layout.fragment_park_detail),
@@ -33,7 +31,7 @@ class ParkDetailFragment : BaseFragment<FragmentParkDetailBinding, ParkInfoViewM
         arguments?.let {
             parkInfo = it.getSerializable(Constants.KEY_SELECT_PARK_INFO) as ParkInfo
             binding.txtParkingLotName.text = parkInfo.prkplceNm
-            binding.txtDistance.text = GeoDistanceManager.getDistanceStr(parkInfo.distance)
+            binding.txtDistance.text = viewModel.getDistanceStr(parkInfo.distance)
             binding.txtPrkplceSe.text = parkInfo.prkplceSe
             binding.txtPrkplceType.text = parkInfo.prkplceType
             binding.txtRdnmadr.text = parkInfo.rdnmadr
