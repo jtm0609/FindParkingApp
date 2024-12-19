@@ -8,6 +8,7 @@ import com.jtmcompany.domain.usecase.GetParkInfoUseCase
 import com.jtmcompany.domain.usecase.InsertLocalParkUseCase
 import com.jtmcompany.parkingapplication.base.BaseViewModel
 import com.jtmcompany.parkingapplication.utils.NetworkManager
+import com.jtmcompany.parkingapplication.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -27,10 +28,20 @@ class ParkLocationViewModel @Inject constructor(
     private val _totalCnt = MutableLiveData<Int>()
     val totalCnt: LiveData<Int> get() = _totalCnt
 
+    private val _clickedSearch = SingleLiveEvent<ParkInfo>()
+    val clickedSearch: LiveData<ParkInfo> = _clickedSearch
+
+    //현재 사용자의 위치(위도)
+    private var _userLatitude: Double = 0.0;
+    val userLatitude: Double get() = _userLatitude
+    //현재 사용자의 위치(위도)
+    private var _userLongitude: Double = 0.0;
+    val userLongitude: Double get() = _userLongitude
+
     fun requestParkInfo(numOfRows: Int) {
         if (!networkManager.checkNetworkState()) {
             return
-        };
+        }
         compositeDisposable.add(
             getParkInfoUseCase.execute(numOfRows)
                 .subscribeOn(Schedulers.io())
@@ -64,5 +75,14 @@ class ParkLocationViewModel @Inject constructor(
                     }
                 )
         )
+    }
+
+    fun onClickSearch() {
+        _clickedSearch.call()
+    }
+
+    fun setUserLocation(latitude: Double, longitude: Double) {
+        _userLatitude = latitude
+        _userLongitude = longitude
     }
 }

@@ -4,16 +4,14 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkSearchBinding
-import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
-import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,8 +21,7 @@ class ParkSearchFragment :
     BaseFragment<FragmentParkSearchBinding, ParkSearchViewModel>(R.layout.fragment_park_search) {
 
     override val viewModel: ParkSearchViewModel by viewModels()
-    private var userLatitude: Double = 0.0
-    private var userLongitude: Double = 0.0
+    private val args : ParkSearchFragmentArgs by navArgs()
 
     private val parkListAdapter by lazy { ParkListAdapter(viewModel) }
     override fun setBindingVariable(binding: FragmentParkSearchBinding) {
@@ -36,13 +33,7 @@ class ParkSearchFragment :
     override fun initView() {
         initRecyclerAdapter()
         initSpinnerAdapter()
-
-        arguments?.let {
-            userLatitude = it.getDouble(KEY_USER_LATITUDE)
-            userLongitude = it.getDouble(KEY_USER_LOGITUDE)
-        }
     }
-
 
     override fun initObserver() {
         viewModel.parkLocalList.observe(viewLifecycleOwner, Observer { parkInfoList ->
@@ -56,8 +47,8 @@ class ParkSearchFragment :
                 binding.spParkSection.selectedItem.toString(),
                 binding.spParkType.selectedItem.toString(),
                 binding.spParkCharge.selectedItem.toString(),
-                userLatitude,
-                userLongitude
+                args.userLatitude.toDouble(),
+                args.userLongitude.toDouble()
             )
 
             onComplete(filteredParks)

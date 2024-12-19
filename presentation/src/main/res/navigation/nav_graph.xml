@@ -37,6 +37,14 @@
             app:destination="@id/parkDetailFragment" >
         </action>
 
+        <argument
+            android:name="userLatitude"
+            app:argType="float"/>
+        <argument
+            android:name="userLongitude"
+            app:argType="float"/>
+
+
 
     </fragment>
     <fragment

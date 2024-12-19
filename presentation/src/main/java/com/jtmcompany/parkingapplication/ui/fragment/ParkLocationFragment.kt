@@ -1,15 +1,9 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
-import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkLocationBinding
-import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
-import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.utils.PrefManager
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,34 +13,27 @@ import net.daum.mf.map.api.MapView
 @AndroidEntryPoint
 class ParkLocationFragment :
     BaseFragment<FragmentParkLocationBinding, ParkLocationViewModel>(R.layout.fragment_park_location),
-    View.OnClickListener, MapView.CurrentLocationEventListener {
+    MapView.CurrentLocationEventListener {
 
     override val viewModel: ParkLocationViewModel by viewModels()
-    private lateinit var mapView: MapView
-
-    //현재 사용자의 위치(위도)
-    private var curLatitude = 0.0;
-
-    //현재 사용자의 위치(위도)
-    private var curLongitude = 0.0;
+    private val mapView: MapView by lazy { MapView(mContext) }
 
     //DB 업데이트가 필요한 경우
     private var isNeedUpdateDB = false
     override fun setBindingVariable(binding: FragmentParkLocationBinding) {
-        with(binding){
+        with(binding) {
             viewModel = this@ParkLocationFragment.viewModel
         }
     }
 
     override fun initView() {
-        binding.layoutSearch.setOnClickListener(this)
         initMapView()
         //주차장 정보를 가져온다.
         viewModel.requestParkInfo(1)
     }
 
     override fun initObserver() {
-        viewModel.totalCnt.observe(viewLifecycleOwner, Observer {
+        viewModel.totalCnt.observe(viewLifecycleOwner) {
             val apiTotalCnt = it
             val localTotalCnt = PrefManager.getInt(mContext, "park_total_cnt")
 
@@ -56,20 +43,27 @@ class ParkLocationFragment :
                 isNeedUpdateDB = true
                 viewModel.requestParkInfo(apiTotalCnt)
             }
-        })
+        }
 
         //서버로부터 주차장 정보 가져오기
-        viewModel.parkList.observe(viewLifecycleOwner, Observer {
+        viewModel.parkList.observe(viewLifecycleOwner) {
             //DB저장
-            if(isNeedUpdateDB) {
+            if (isNeedUpdateDB) {
                 viewModel.insertLocalPark(it)
                 isNeedUpdateDB = false
             }
-        })
+        }
+
+        viewModel.clickedSearch.observe(viewLifecycleOwner) {
+            val action = ParkLocationFragmentDirections.actionParkLocationFragmentToParkSearchFragment(
+                viewModel.userLatitude.toFloat(),
+                viewModel.userLongitude.toFloat()
+            )
+            nextFragment(action)
+        }
     }
 
     private fun initMapView() {
-        mapView = MapView(mContext)
         binding.mapView.addView(mapView)
         mapView.setCurrentLocationEventListener(this)
 
@@ -78,23 +72,13 @@ class ParkLocationFragment :
             MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
     }
 
-    override fun onClick(view: View?) {
-        when (view?.id) {
-            R.id.layout_search -> {
-                val bundle = bundleOf(
-                    KEY_USER_LATITUDE to curLatitude,
-                    KEY_USER_LOGITUDE to curLongitude
-                )
-                findNavController().navigate(R.id.action_parkLocationFragment_to_parkSearchFragment, bundle)
-            }
-        }
-    }
-
-    //현 위치 파악
+    //현 위치 파악 (카카오 SDK)
     override fun onCurrentLocationUpdate(view: MapView?, currentLocation: MapPoint?, p2: Float) {
-        currentLocation?.let {
-            curLatitude = it.mapPointGeoCoord.latitude
-            curLongitude = it.mapPointGeoCoord.longitude
+        currentLocation?.let { mapPoint ->
+            viewModel.setUserLocation(
+                mapPoint.mapPointGeoCoord.latitude,
+                mapPoint.mapPointGeoCoord.longitude
+            )
         }
     }
 

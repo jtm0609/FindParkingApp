@@ -28,7 +28,8 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="25dp"
-            android:background="@drawable/drawable_bg_radius">
+            android:background="@drawable/drawable_bg_radius"
+            android:onClick="@{()->viewModel.onClickSearch()}">
 
             <TextView
                 android:id="@+id/tv_search"
