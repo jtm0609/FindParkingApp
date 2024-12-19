@@ -5,27 +5,32 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentSplashBinding
 import com.jtmcompany.parkingapplication.utils.Constants
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.SplashViewModel
 
-class SplashFragment : BaseFragment<FragmentSplashBinding, ParkSearchViewModel>(R.layout.fragment_splash) {
+class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>(R.layout.fragment_splash) {
 
-    override val viewModel : ParkSearchViewModel by activityViewModels()
-    private val perRequestCode = 1000
+    override val viewModel : SplashViewModel by viewModels()
+
+    companion object {
+        private const val perRequestCode = 1000
+    }
 
     override fun initObserver() {
     }
 
     override fun initView() {
         Handler(Looper.getMainLooper()).postDelayed({
-            if(!checkPermission()){
-                requestPermission()
+            if(checkPermission()){
+                val action = SplashFragmentDirections.actionSplashFragmentToParkLocationFragment()
+                nextFragment(action)
             }else{
-                findNavController().navigate(R.id.action_splashFragment_to_parkLocationFragment)
+                requestPermission()
             }
         }, Constants.LOADING_DELAY)
     }
@@ -62,20 +67,15 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, ParkSearchViewModel>(
         grantResults: IntArray
     ) {
         if (requestCode == perRequestCode) {
-            var isAllPermissionGranted = true
-            for (result in grantResults) { //모든 퍼미션을 허용했는지 체크
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    isAllPermissionGranted = false
-                    break
-                }
-            }
+            // 모든 권한이 허용되었는지 체크
+            val isAllPermissionsGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
 
-            //권한 체크에 동의를 하지 않으면 안드로이드 종료
-            if (!isAllPermissionGranted) {
+            if(isAllPermissionsGranted) {
+                val action = SplashFragmentDirections.actionSplashFragmentToParkLocationFragment()
+                nextFragment(action)
+            }else {
                 showToast(getString(R.string.msg_alert_need_permission))
                 activity?.finish()
-            }else{
-                findNavController().navigate(R.id.action_splashFragment_to_parkLocationFragment)
             }
         }
     }

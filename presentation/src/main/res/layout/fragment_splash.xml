@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel" />
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.SplashViewModel" />
     </data>
 
     <LinearLayout
