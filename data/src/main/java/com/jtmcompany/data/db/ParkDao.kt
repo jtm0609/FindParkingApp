@@ -20,7 +20,7 @@ interface ParkDao {
     fun getAllParks(): Single<List<ParkEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insetParks(movies: List<ParkEntity>): Completable
+    fun insertParks(movies: List<ParkEntity>): Completable
 
     @Query("DELETE FROM park")
     fun deleteParks() : Completable

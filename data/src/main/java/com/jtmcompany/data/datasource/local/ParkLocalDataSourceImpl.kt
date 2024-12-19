@@ -9,7 +9,7 @@ import javax.inject.Inject
 class ParkLocalDataSourceImpl @Inject constructor(private val parkDao: ParkDao) :
     ParkLocalDataSource {
     override fun insertParks(parks: List<ParkEntity>): Completable =
-        parkDao.insetParks(parks)
+        parkDao.insertParks(parks)
 
     override fun getAllParks(): Single<List<ParkEntity>> =
         parkDao.getAllParks()
