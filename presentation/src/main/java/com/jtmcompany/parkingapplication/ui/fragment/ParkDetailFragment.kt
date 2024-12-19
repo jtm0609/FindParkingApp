@@ -12,13 +12,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 class ParkDetailFragment :
     BaseFragment<FragmentParkDetailBinding, ParkDetailViewModel>(R.layout.fragment_park_detail) {
-    private lateinit var parkInfo: ParkInfo
     private val args: ParkDetailFragmentArgs by navArgs()
     override val viewModel: ParkDetailViewModel by viewModels()
 
     override fun initObserver() {
         viewModel.clickedGetDirection.observe(viewLifecycleOwner) {
-            val bottomDialogFragment = NaviMenuBottomDialogFragment(parkInfo)
+            val bottomDialogFragment = NaviMenuBottomDialogFragment(args.parkInfo)
             activity?.let { bottomDialogFragment.show(it.supportFragmentManager, "") }
         }
     }
