@@ -21,4 +21,7 @@ interface ParkDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insetParks(movies: List<ParkEntity>): Completable
+
+    @Query("DELETE FROM park")
+    fun deleteParks() : Completable
 }

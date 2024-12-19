@@ -11,7 +11,9 @@ class ParkLocalDataSourceImpl @Inject constructor(private val parkDao: ParkDao) 
     override fun insertParks(parks: List<ParkEntity>): Completable =
         parkDao.insetParks(parks)
 
-
     override fun getAllParks(): Single<List<ParkEntity>> =
-            parkDao.getAllParks()
+        parkDao.getAllParks()
+
+    override fun deleteParks(): Completable =
+        parkDao.deleteParks()
 }

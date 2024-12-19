@@ -41,9 +41,13 @@ class ParkRepositoryImpl @Inject constructor(
     }
 
     override fun insertPark(parks: List<ParkInfo>): Completable {
-        return parkLocalDataSource.insertParks(
-            parks.map { it.toDataModel() }
-        )
+        return with(parkLocalDataSource){
+            deleteParks().andThen(
+                insertParks(
+                    parks.map{it.toDataModel()}
+                )
+            )
+        }
     }
 
     override fun saveParkTotalCnt(cnt: Int) {

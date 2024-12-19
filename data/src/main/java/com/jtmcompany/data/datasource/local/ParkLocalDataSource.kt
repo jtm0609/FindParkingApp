@@ -8,4 +8,5 @@ interface ParkLocalDataSource {
 
     fun insertParks(parks: List<ParkEntity>) : Completable
     fun getAllParks(): Single<List<ParkEntity>>
+    fun deleteParks() : Completable
 }
