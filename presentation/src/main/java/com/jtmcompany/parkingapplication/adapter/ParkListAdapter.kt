@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.databinding.ItemParkingBinding
-import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel
 
-class ParkListAdapter(private val viewModel: ParkInfoViewModel) :
+class ParkListAdapter(private val viewModel: ParkSearchViewModel) :
     RecyclerView.Adapter<ParkListAdapter.ViewHolder>() {
 
     private var parkList: List<ParkInfo> = emptyList()

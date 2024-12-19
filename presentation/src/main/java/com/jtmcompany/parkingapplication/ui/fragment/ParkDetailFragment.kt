@@ -1,22 +1,20 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
-import android.view.View
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkDetailBinding
-import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
-import com.jtmcompany.parkingapplication.utils.Constants
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
 class ParkDetailFragment :
-    BaseFragment<FragmentParkDetailBinding, ParkInfoViewModel>(R.layout.fragment_park_detail) {
+    BaseFragment<FragmentParkDetailBinding, ParkDetailViewModel>(R.layout.fragment_park_detail) {
     private lateinit var parkInfo: ParkInfo
     private val args: ParkDetailFragmentArgs by navArgs()
-    override val viewModel: ParkInfoViewModel by activityViewModels()
+    override val viewModel: ParkDetailViewModel by viewModels()
 
     override fun initObserver() {
         viewModel.clickedGetDirection.observe(viewLifecycleOwner) {

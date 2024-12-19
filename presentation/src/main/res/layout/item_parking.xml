@@ -7,7 +7,7 @@
             type="com.jtmcompany.domain.model.ParkInfo" />
         <variable
             name="viewModel"
-            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel" />
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel" />
     </data>
 
     <LinearLayout

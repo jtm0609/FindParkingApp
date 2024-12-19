@@ -1,14 +1,12 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
@@ -16,14 +14,15 @@ import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkSearchBinding
 import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
 import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
-import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
-
+@AndroidEntryPoint
 class ParkSearchFragment :
-    BaseFragment<FragmentParkSearchBinding, ParkInfoViewModel>(R.layout.fragment_park_search) {
+    BaseFragment<FragmentParkSearchBinding, ParkSearchViewModel>(R.layout.fragment_park_search) {
 
-    override val viewModel: ParkInfoViewModel by activityViewModels()
+    override val viewModel: ParkSearchViewModel by viewModels()
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
 

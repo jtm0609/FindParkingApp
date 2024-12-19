@@ -5,11 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.domain.usecase.GetLocalParkInfoUseCase
-import com.jtmcompany.domain.usecase.GetParkInfoUseCase
-import com.jtmcompany.domain.usecase.InsertLocalParkUseCase
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseViewModel
-import com.jtmcompany.parkingapplication.utils.NetworkManager
 import com.jtmcompany.parkingapplication.utils.ResourceProvider
 import com.jtmcompany.parkingapplication.utils.SingleLiveEvent
 import com.jtmcompany.parkingapplication.utils.applyDistance
@@ -21,25 +18,15 @@ import kotlin.math.floor
 import kotlin.math.roundToInt
 
 @HiltViewModel
-class ParkInfoViewModel @Inject constructor(
-    private val getParkInfoUsecase: GetParkInfoUseCase,
+class ParkSearchViewModel @Inject constructor(
     private val getLocalParkInfoUsecase: GetLocalParkInfoUseCase,
-    private val insertLocalParkUsecase: InsertLocalParkUseCase,
-    private val networkManager: NetworkManager,
     private val resourceProvider: ResourceProvider
 
 ) : BaseViewModel() {
 
     //주차장 정보가 저장되는 변수
-    private val _parkList = MutableLiveData<ArrayList<ParkInfo>>()
-    val parkList: LiveData<ArrayList<ParkInfo>> get() = _parkList
-
-    //주차장 정보가 저장되는 변수
     private val _parkLocalList = MutableLiveData<ArrayList<ParkInfo>>()
     val parkLocalList: LiveData<ArrayList<ParkInfo>> get() = _parkLocalList
-
-    private val _totalCnt = MutableLiveData<Int>()
-    val totalCntCheck: LiveData<Int> get() = _totalCnt
 
     private val _clickedParkInfo = SingleLiveEvent<ParkInfo>()
     val clickedParkInfo: LiveData<ParkInfo> = _clickedParkInfo
@@ -47,37 +34,8 @@ class ParkInfoViewModel @Inject constructor(
     private val _clickedParkSearch = SingleLiveEvent<Unit>()
     val clickedParkSearch: LiveData<Unit> = _clickedParkSearch
 
-    private val _clickedGetDirection = SingleLiveEvent<Unit>()
-    val clickedGetDirection: LiveData<Unit> = _clickedGetDirection
-
     // toast 메시지
     var keyword = MutableLiveData<String>()
-
-
-    fun requestParkInfo(numOfRows: Int) {
-        if (!networkManager.checkNetworkState()) {
-            return
-        };
-        compositeDisposable.add(
-            getParkInfoUsecase.execute(numOfRows)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { showProgress() }
-                .doOnNext { hideProgress() }
-                .subscribe({ list ->
-                    if (list.isNotEmpty()) {
-                        if (numOfRows == 1) {
-                            _totalCnt.value = list[0].totalCnt.toInt()
-                        } else {
-                            _parkList.value = list as ArrayList<ParkInfo>
-                        }
-
-                    }
-                }, {
-                    Log.d("tak", "requestParkInfo throwable: " + it.message)
-                })
-        )
-    }
 
 
     private fun requestLocalPark() {
@@ -94,6 +52,14 @@ class ParkInfoViewModel @Inject constructor(
                 }) {
                     Log.d("tak", "requestLocalPark throwable: " + it.message)
                 })
+    }
+
+    private fun checkMatchKeyword(parkInfo: ParkInfo, keyword: String): Boolean {
+        return parkInfo.run {
+            prkplceNm?.contains(keyword, ignoreCase = true) == true ||
+                    rdnmadr?.contains(keyword, ignoreCase = true) == true ||
+                    lnmadr?.contains(keyword, ignoreCase = true) == true
+        }
     }
 
     fun filterParkList(
@@ -118,31 +84,6 @@ class ParkInfoViewModel @Inject constructor(
                 parkInfo.latitude.toDouble(),
                 parkInfo.longitude.toDouble())
         }
-    }
-
-
-    private fun checkMatchKeyword(parkInfo: ParkInfo, keyword: String): Boolean {
-        return parkInfo.run {
-            prkplceNm?.contains(keyword, ignoreCase = true) == true ||
-                    rdnmadr?.contains(keyword, ignoreCase = true) == true ||
-                    lnmadr?.contains(keyword, ignoreCase = true) == true
-        }
-    }
-
-
-    fun insertLocalPark(parks: List<ParkInfo>) {
-        compositeDisposable.add(
-            insertLocalParkUsecase.execute(parks)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        Log.d("tak", "Inserted Successfully")
-                    }, { error ->
-                        Log.d("tak", "Error Inserting: ${error.message}")
-                    }
-                )
-        )
     }
 
     //계산한 거리 단위(km, m)로 변환
@@ -177,7 +118,5 @@ class ParkInfoViewModel @Inject constructor(
         requestLocalPark()
     }
 
-    fun onClickGetDirection() {
-        _clickedGetDirection.call()
-    }
+
 }

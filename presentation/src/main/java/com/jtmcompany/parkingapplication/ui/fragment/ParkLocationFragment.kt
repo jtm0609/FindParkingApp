@@ -1,10 +1,8 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
-import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.jtmcompany.parkingapplication.R
@@ -13,15 +11,17 @@ import com.jtmcompany.parkingapplication.databinding.FragmentParkLocationBinding
 import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LATITUDE
 import com.jtmcompany.parkingapplication.utils.Constants.KEY_USER_LOGITUDE
 import com.jtmcompany.parkingapplication.utils.PrefManager
-import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkLocationViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
+@AndroidEntryPoint
 class ParkLocationFragment :
-    BaseFragment<FragmentParkLocationBinding, ParkInfoViewModel>(R.layout.fragment_park_location),
+    BaseFragment<FragmentParkLocationBinding, ParkLocationViewModel>(R.layout.fragment_park_location),
     View.OnClickListener, MapView.CurrentLocationEventListener {
 
-    override val viewModel: ParkInfoViewModel by activityViewModels()
+    override val viewModel: ParkLocationViewModel by viewModels()
     private lateinit var mapView: MapView
 
     //현재 사용자의 위치(위도)
@@ -38,7 +38,6 @@ class ParkLocationFragment :
         }
     }
 
-
     override fun initView() {
         binding.layoutSearch.setOnClickListener(this)
         initMapView()
@@ -47,7 +46,7 @@ class ParkLocationFragment :
     }
 
     override fun initObserver() {
-        viewModel.totalCntCheck.observe(viewLifecycleOwner, Observer {
+        viewModel.totalCnt.observe(viewLifecycleOwner, Observer {
             val apiTotalCnt = it
             val localTotalCnt = PrefManager.getInt(mContext, "park_total_cnt")
 

@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="vm"
-            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel"/>
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

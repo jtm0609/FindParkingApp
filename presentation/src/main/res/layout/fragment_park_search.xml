@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel"/>
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

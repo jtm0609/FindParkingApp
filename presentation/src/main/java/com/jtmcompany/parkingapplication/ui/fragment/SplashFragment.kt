@@ -1,10 +1,8 @@
 package com.jtmcompany.parkingapplication.ui.fragment
 
 import android.content.pm.PackageManager
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -12,11 +10,11 @@ import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentSplashBinding
 import com.jtmcompany.parkingapplication.utils.Constants
-import com.jtmcompany.parkingapplication.ui.viewmodel.ParkInfoViewModel
+import com.jtmcompany.parkingapplication.ui.viewmodel.ParkSearchViewModel
 
-class SplashFragment : BaseFragment<FragmentSplashBinding, ParkInfoViewModel>(R.layout.fragment_splash) {
+class SplashFragment : BaseFragment<FragmentSplashBinding, ParkSearchViewModel>(R.layout.fragment_splash) {
 
-    override val viewModel : ParkInfoViewModel by activityViewModels()
+    override val viewModel : ParkSearchViewModel by activityViewModels()
     private val perRequestCode = 1000
 
     override fun initObserver() {
