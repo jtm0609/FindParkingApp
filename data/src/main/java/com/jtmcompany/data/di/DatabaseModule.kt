@@ -1,6 +1,7 @@
 package com.jtmcompany.data.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.jtmcompany.data.db.ParkDao
 import com.jtmcompany.data.db.ParkDatabase
@@ -29,5 +30,11 @@ object DatabaseModule {
     @Provides
     fun provideMovieDao(parkDatabase: ParkDatabase): ParkDao {
         return parkDatabase.parkDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(@ApplicationContext context: Context) : SharedPreferences {
+        return context.getSharedPreferences("pref", Context.MODE_PRIVATE)
     }
 }

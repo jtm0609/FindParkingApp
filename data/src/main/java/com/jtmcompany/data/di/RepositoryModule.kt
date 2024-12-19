@@ -1,6 +1,7 @@
 package com.jtmcompany.data.di
 
 import com.jtmcompany.data.datasource.local.ParkLocalDataSource
+import com.jtmcompany.data.datasource.local.PrefDataSource
 import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
 import com.jtmcompany.data.repository.ParkRepositoryImpl
 import com.jtmcompany.repository.ParkRepository
@@ -18,8 +19,9 @@ class RepositoryModule {
     @Provides
     fun provideMovieRepository(
         parkRemoteDataSource: ParkRemoteDataSource,
-        parkLocalDataSource: ParkLocalDataSource
+        parkLocalDataSource: ParkLocalDataSource,
+        prefDataSource: PrefDataSource
     ): ParkRepository {
-        return ParkRepositoryImpl(parkRemoteDataSource, parkLocalDataSource)
+        return ParkRepositoryImpl(parkRemoteDataSource, parkLocalDataSource, prefDataSource)
     }
 }

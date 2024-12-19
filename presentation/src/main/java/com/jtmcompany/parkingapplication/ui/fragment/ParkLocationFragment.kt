@@ -4,7 +4,6 @@ import androidx.fragment.app.viewModels
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.base.BaseFragment
 import com.jtmcompany.parkingapplication.databinding.FragmentParkLocationBinding
-import com.jtmcompany.parkingapplication.utils.PrefManager
 import com.jtmcompany.parkingapplication.ui.viewmodel.ParkLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPoint
@@ -16,10 +15,8 @@ class ParkLocationFragment :
     MapView.CurrentLocationEventListener {
 
     override val viewModel: ParkLocationViewModel by viewModels()
-    private val mapView: MapView by lazy { MapView(mContext) }
+    private lateinit var mapView: MapView
 
-    //DB 업데이트가 필요한 경우
-    private var isNeedUpdateDB = false
     override fun setBindingVariable(binding: FragmentParkLocationBinding) {
         with(binding) {
             viewModel = this@ParkLocationFragment.viewModel
@@ -33,26 +30,6 @@ class ParkLocationFragment :
     }
 
     override fun initObserver() {
-        viewModel.totalCnt.observe(viewLifecycleOwner) {
-            val apiTotalCnt = it
-            val localTotalCnt = PrefManager.getInt(mContext, "park_total_cnt")
-
-            //주차장 totalCnt(서버 정보)가 변경 되었을 때 or 앱 최초 진입시 전체 주차장 정보 서버로부터 불러오기
-            if (apiTotalCnt != localTotalCnt) {
-                PrefManager.setInt(mContext, "park_total_cnt", apiTotalCnt)
-                isNeedUpdateDB = true
-                viewModel.requestParkInfo(apiTotalCnt)
-            }
-        }
-
-        //서버로부터 주차장 정보 가져오기
-        viewModel.parkList.observe(viewLifecycleOwner) {
-            //DB저장
-            if (isNeedUpdateDB) {
-                viewModel.insertLocalPark(it)
-                isNeedUpdateDB = false
-            }
-        }
 
         viewModel.clickedSearch.observe(viewLifecycleOwner) {
             val action = ParkLocationFragmentDirections.actionParkLocationFragmentToParkSearchFragment(
@@ -64,6 +41,7 @@ class ParkLocationFragment :
     }
 
     private fun initMapView() {
+        mapView = MapView(mContext)
         binding.mapView.addView(mapView)
         mapView.setCurrentLocationEventListener(this)
 

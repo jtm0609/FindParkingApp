@@ -2,6 +2,7 @@ package com.jtmcompany.data.repository
 
 import android.util.Log
 import com.jtmcompany.data.datasource.local.ParkLocalDataSource
+import com.jtmcompany.data.datasource.local.PrefDataSource
 import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
 import com.jtmcompany.data.mapper.DataMapper.toDataModel
 import com.jtmcompany.data.mapper.DomainMapper.toDomainModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
  */
 class ParkRepositoryImpl @Inject constructor(
     private val parkRemoteDataSource: ParkRemoteDataSource,
-    private val parkLocalDataSource: ParkLocalDataSource
+    private val parkLocalDataSource: ParkLocalDataSource,
+    private val prefDataSource: PrefDataSource
 ) : ParkRepository {
 
     override fun getRemoteParkInfo(numOfRows: Int): Flowable<List<ParkInfo>> {
@@ -42,6 +44,14 @@ class ParkRepositoryImpl @Inject constructor(
         return parkLocalDataSource.insertParks(
             parks.map { it.toDataModel() }
         )
+    }
+
+    override fun saveParkTotalCnt(cnt: Int) {
+        prefDataSource.saveParkTotalCnt(cnt)
+    }
+
+    override fun getParkTotalCnt(): Int {
+        return prefDataSource.getParkTotalCnt()
     }
 
     //DB에서 주차장 정보 가져오기

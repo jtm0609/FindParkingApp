@@ -11,8 +11,9 @@ import io.reactivex.Flowable
 interface ParkRepository {
     fun getRemoteParkInfo(numOfRows: Int): Flowable<List<ParkInfo>>
 
-
     fun getLocalParkInfo(): Flowable<List<ParkInfo>>
-
     fun insertPark(parks: List<ParkInfo>): Completable
+
+    fun saveParkTotalCnt(cnt : Int)
+    fun getParkTotalCnt() : Int
 }
