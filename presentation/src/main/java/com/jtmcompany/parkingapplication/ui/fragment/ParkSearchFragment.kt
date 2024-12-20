@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.parkingapplication.R
 import com.jtmcompany.parkingapplication.adapter.ParkListAdapter
 import com.jtmcompany.parkingapplication.base.BaseFragment
@@ -51,7 +50,12 @@ class ParkSearchFragment :
                 args.userLongitude.toDouble()
             )
 
-            onComplete(filteredParks)
+            if (filteredParks.isEmpty()) {
+                binding.layoutNoData.visibility = View.VISIBLE
+            }else {
+                val sortedList =filteredParks.sortedBy { it.distance }
+                parkListAdapter.submitList(sortedList)
+            }
         })
 
         viewModel.clickedParkInfo.observe(viewLifecycleOwner) { parkInfo ->
@@ -71,17 +75,6 @@ class ParkSearchFragment :
         }
     }
 
-
-    private fun onComplete(searchResultList: List<ParkInfo>) {
-        var sortedList = searchResultList
-        if (searchResultList.isEmpty()) {
-            binding.layoutNoData.visibility = View.VISIBLE
-        } else {
-            sortedList =searchResultList.sortedBy { it.distance }
-        }
-
-        parkListAdapter.submitList(sortedList)
-    }
 
     private fun initRecyclerAdapter() {
         with(binding) {
