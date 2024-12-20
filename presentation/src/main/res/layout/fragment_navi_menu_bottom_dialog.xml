@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.jtmcompany.parkingapplication.ui.viewmodel.NaviMenuDialogViewModel" />
     </data>
 
     <LinearLayout
@@ -25,7 +27,8 @@
         <LinearLayout
             android:id="@+id/layout_tmap"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.onClickTmapNavi()}" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +43,8 @@
         <LinearLayout
             android:id="@+id/layout_kakao_navi"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:onClick="@{()->viewModel.onClickKakaoNavi()}">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
