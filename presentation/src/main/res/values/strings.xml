@@ -37,7 +37,7 @@
     <string name="msg_check_word_count">단어를 2글자 이상 입력해 주세요!</string>
     <string name="default_text">-</string>
     <string name="msg_alert_need_permission">앱을 이용하기 위해서는 권한이 필요합니다.</string>
-    <string name="kakao_native_app_key">b1322bfcbf8eb0cc3ae4021c1c877c47</string>
+    <string name="kakao_native_app_key">08cf91786683fd8aff78caf660dcb22b</string>
     <string name="tmap_native_app_key">77HqPMruKz5CvxT8G9lLajQUK8g1Trzaq8pcIc16</string>
     <string name="msg_setting_navigation_app">내비게이션으로\n설정할 앱을 선택해주세요.</string>
     <string name="msg_t_map">T map</string>
