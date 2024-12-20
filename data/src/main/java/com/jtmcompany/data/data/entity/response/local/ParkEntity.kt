@@ -84,13 +84,12 @@ data class ParkEntity (
     @SerializedName("referenceDate")
     var referenceDate: String?, // 데이터기준일자
     @SerializedName("instt_code")
-    var instt_code: String?, // 제공기관코드
+    var insttCode: String?, // 제공기관코드
     @SerializedName("instt_nm")
-    var instt_nm: String?, // 제공기관기관명
-
+    var insttNm: String?, // 제공기관기관명
     @SerializedName("totalCount")
-    var totalCount: String, // 나와의 거리
+    var totalCount: String?, // 나와의 거리
     @SerializedName("distance")
-    var distance: Double = 0.0 // 나와의 거리
+    var distance: Double? = 0.0 // 나와의 거리
 )
 

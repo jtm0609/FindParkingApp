@@ -62,7 +62,7 @@ class NaviMenuBottomDialogFragment(
     private fun executeTmap(tMap: TMapTapi) {
         if (tMap.isTmapApplicationInstalled) {
             tMap.invokeRoute(
-                parkInfo.prkplceNm!!, parkInfo.longitude.toFloat(), parkInfo.latitude.toFloat()
+                parkInfo.prkplceNm, parkInfo.longitude.toFloat(), parkInfo.latitude.toFloat()
             )
         } else {
             goToAppStore(Uri.parse(tmapMarketUrl))
@@ -75,7 +75,7 @@ class NaviMenuBottomDialogFragment(
                 activity?.startActivity(
                     NaviClient.instance.navigateIntent(
                         Location(
-                            parkInfo.prkplceNm!!,
+                            parkInfo.prkplceNm,
                             parkInfo.longitude,
                             parkInfo.latitude
                         ),

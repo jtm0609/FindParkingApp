@@ -30,7 +30,6 @@ class ParkLocationFragment :
     }
 
     override fun initObserver() {
-
         viewModel.clickedSearch.observe(viewLifecycleOwner) {
             val action = ParkLocationFragmentDirections.actionParkLocationFragmentToParkSearchFragment(
                 viewModel.userLatitude.toFloat(),

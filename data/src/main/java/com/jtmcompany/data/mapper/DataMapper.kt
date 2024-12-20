@@ -3,7 +3,7 @@ package com.jtmcompany.data.mapper
 import com.jtmcompany.data.data.entity.response.local.ParkEntity
 import com.jtmcompany.domain.model.ParkInfo
 
-object DataMapper {
+
     fun ParkInfo.toDataModel() : ParkEntity {
         return ParkEntity(
             0,
@@ -43,4 +43,3 @@ object DataMapper {
             totalCnt
         )
     }
-}

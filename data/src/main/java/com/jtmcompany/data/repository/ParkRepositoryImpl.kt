@@ -4,8 +4,8 @@ import android.util.Log
 import com.jtmcompany.data.datasource.local.ParkLocalDataSource
 import com.jtmcompany.data.datasource.local.PrefDataSource
 import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
-import com.jtmcompany.data.mapper.DataMapper.toDataModel
-import com.jtmcompany.data.mapper.DomainMapper.toDomainModel
+import com.jtmcompany.data.mapper.toDataModel
+import com.jtmcompany.data.mapper.toDomainModel
 import com.jtmcompany.domain.model.ParkInfo
 import com.jtmcompany.repository.ParkRepository
 import io.reactivex.Completable
@@ -33,10 +33,6 @@ class ParkRepositoryImpl @Inject constructor(
             Log.d("tak", "response: $response")
         }.map {
             it.toDomainModel()
-        }.doOnNext { mappingData ->
-            // 변환된 데이터를 출력합니다.
-            Log.d("tak", "mappingData: $mappingData")
-            Log.d("tak", "mappingData size: ${mappingData.size}")
         }
     }
 

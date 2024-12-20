@@ -37,7 +37,6 @@ class ParkSearchViewModel @Inject constructor(
     // toast 메시지
     var keyword = MutableLiveData<String>()
 
-
     private fun requestLocalPark() {
         compositeDisposable.add(
             getLocalParkInfoUsecase()
@@ -56,9 +55,9 @@ class ParkSearchViewModel @Inject constructor(
 
     private fun checkMatchKeyword(parkInfo: ParkInfo, keyword: String): Boolean {
         return parkInfo.run {
-            prkplceNm?.contains(keyword, ignoreCase = true) == true ||
-                    rdnmadr?.contains(keyword, ignoreCase = true) == true ||
-                    lnmadr?.contains(keyword, ignoreCase = true) == true
+            prkplceNm.contains(keyword, ignoreCase = true)
+                    || rdnmadr.contains(keyword, ignoreCase = true)
+                    || lnmadr.contains(keyword, ignoreCase = true)
         }
     }
 
@@ -74,7 +73,7 @@ class ParkSearchViewModel @Inject constructor(
         return parkInfoList.filter { parkInfo ->
             val matchesKeyword = checkMatchKeyword(parkInfo, keyword)
             val matchesSection = sectionOption == "주차장구분" || parkInfo.prkplceSe == sectionOption
-            val matchesType = typeOption == "주차장유형" ||  parkInfo.prkplceType == typeOption
+            val matchesType = typeOption == "주차장유형" || parkInfo.prkplceType == typeOption
             val matchesCharge = chargeOption == "요금정보" || parkInfo.parkingchrgeInfo == chargeOption
             matchesKeyword && matchesSection && matchesType && matchesCharge
         }.map { parkInfo ->
@@ -82,13 +81,13 @@ class ParkSearchViewModel @Inject constructor(
                 userLatitude,
                 userLongitude,
                 parkInfo.latitude.toDouble(),
-                parkInfo.longitude.toDouble())
+                parkInfo.longitude.toDouble()
+            )
         }
     }
 
     //계산한 거리 단위(km, m)로 변환
     fun getDistanceStr(distance: Double): String {
-
         val distanceStr: String = if (distance > 1000) { //1km 이상
             (distance / 1000).roundToInt().toString() + "km"
         } else { //소수점 버림
@@ -102,7 +101,6 @@ class ParkSearchViewModel @Inject constructor(
     }
 
     fun onClickParkSearch() {
-
         val keywordText = keyword.value ?: ""
         if (keywordText.isEmpty()) {
             showToast(resourceProvider.getString(R.string.msg_check_empty_park_))
@@ -117,6 +115,4 @@ class ParkSearchViewModel @Inject constructor(
 
         requestLocalPark()
     }
-
-
 }

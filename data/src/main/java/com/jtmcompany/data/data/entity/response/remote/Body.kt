@@ -7,11 +7,11 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml(name = "body")
 data class Body(
     @PropertyElement(name="totalCount")
-    val totalCount: String,
+    val totalCount: String?,
     @PropertyElement(name="numOfRows")
-    val numOfRows: String,
+    val numOfRows: String?,
     @PropertyElement(name="pageNo")
-    val pageNo: String,
+    val pageNo: String?,
     @Element(name="items")
-    val item: Item
+    val item: Item?
 )

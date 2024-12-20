@@ -17,7 +17,6 @@ class ParkDetailViewModel : BaseViewModel() {
 
     //계산한 거리 단위(km, m)로 변환
     fun getDistanceStr(distance: Double): String {
-
         val distanceStr: String = if (distance > 1000) { //1km 이상
             (distance / 1000).roundToInt().toString() + "km"
         } else { //소수점 버림

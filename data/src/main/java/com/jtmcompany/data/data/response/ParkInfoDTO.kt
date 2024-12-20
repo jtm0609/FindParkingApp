@@ -8,7 +8,7 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml(name = "response")
 data class ParkInfoDTO( //주자장 시설정보
     @Element(name = "header")
-    val header: Header,
+    val header: Header?,
     @Element(name = "body")
-    val body: Body
+    val body: Body?
 )

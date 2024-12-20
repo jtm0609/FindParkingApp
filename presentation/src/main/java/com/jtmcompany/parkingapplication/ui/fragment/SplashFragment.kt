@@ -51,6 +51,7 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>(R.la
             ), perRequestCode
         )
     }
+
     private fun checkPermission(): Boolean {
         val permission1 = checkSelfPermission(mContext, android.Manifest.permission.INTERNET)
         val permission2 = checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION)

@@ -68,7 +68,7 @@ data class ParkInfo(
     @PropertyElement(name = "referenceDate")
     var referenceDate: String?, // 데이터기준일자
     @PropertyElement(name = "instt_code")
-    var instt_code: String?, // 제공기관코드
+    var insttCode: String?, // 제공기관코드
     @PropertyElement(name = "instt_nm")
-    var instt_nm: String?, // 제공기관기관명
+    var insttNm: String?, // 제공기관기관명
 )

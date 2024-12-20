@@ -22,7 +22,6 @@ class ParkDetailFragment :
         }
     }
 
-
     override fun setBindingVariable(binding: FragmentParkDetailBinding) {
         with(binding) {
             viewModel = this@ParkDetailFragment.viewModel

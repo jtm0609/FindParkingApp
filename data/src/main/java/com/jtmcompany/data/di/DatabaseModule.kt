@@ -3,6 +3,8 @@ package com.jtmcompany.data.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.jtmcompany.data.db.ParkDao
 import com.jtmcompany.data.db.ParkDatabase
 import dagger.Module
@@ -23,7 +25,7 @@ object DatabaseModule {
             context,
             ParkDatabase::class.java,
             "park.db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Singleton
@@ -34,7 +36,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(@ApplicationContext context: Context) : SharedPreferences {
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         return context.getSharedPreferences("pref", Context.MODE_PRIVATE)
     }
 }

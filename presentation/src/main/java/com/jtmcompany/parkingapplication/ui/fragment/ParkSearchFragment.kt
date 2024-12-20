@@ -75,7 +75,6 @@ class ParkSearchFragment :
         }
     }
 
-
     private fun initRecyclerAdapter() {
         with(binding) {
             recyclerView.adapter = parkListAdapter
