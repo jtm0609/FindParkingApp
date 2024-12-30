@@ -62,5 +62,4 @@ abstract class BaseBottomDialogFragment<B : ViewDataBinding, VM : BaseViewModel>
     private fun showToast(msg: String) {
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show()
     }
-
 }

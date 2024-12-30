@@ -4,7 +4,7 @@ import com.jtmcompany.data.datasource.local.ParkLocalDataSource
 import com.jtmcompany.data.datasource.local.PrefDataSource
 import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
 import com.jtmcompany.data.repository.ParkRepositoryImpl
-import com.jtmcompany.repository.ParkRepository
+import com.jtmcompany.domain.repository.ParkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

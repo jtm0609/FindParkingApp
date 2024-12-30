@@ -3,7 +3,7 @@ package com.jtmcompany.data.datasource.remote
 import android.content.Context
 import com.jtmcompany.data.R
 import com.jtmcompany.data.api.ApiInterface
-import com.jtmcompany.data.data.response.ParkInfoDTO
+import com.jtmcompany.data.model.response.remote.ParkInfoDTO
 import io.reactivex.Single
 import javax.inject.Inject
 

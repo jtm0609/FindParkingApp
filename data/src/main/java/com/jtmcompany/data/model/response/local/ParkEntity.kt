@@ -1,4 +1,4 @@
-package com.jtmcompany.data.data.entity.response.local
+package com.jtmcompany.data.model.response.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

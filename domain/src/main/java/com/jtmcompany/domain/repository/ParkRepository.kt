@@ -1,4 +1,4 @@
-package com.jtmcompany.repository
+package com.jtmcompany.domain.repository
 
 import com.jtmcompany.domain.model.ParkInfo
 import io.reactivex.Completable

@@ -1,6 +1,6 @@
 package com.jtmcompany.data.datasource.remote
 
-import com.jtmcompany.data.data.response.ParkInfoDTO
+import com.jtmcompany.data.model.response.remote.ParkInfoDTO
 import io.reactivex.Single
 
 /**

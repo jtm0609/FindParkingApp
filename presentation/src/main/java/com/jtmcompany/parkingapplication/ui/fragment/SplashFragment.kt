@@ -41,7 +41,6 @@ class SplashFragment : BaseFragment<FragmentSplashBinding, SplashViewModel>(R.la
         }
     }
 
-
     private fun requestPermission(){
         requestPermissions(
             arrayOf(

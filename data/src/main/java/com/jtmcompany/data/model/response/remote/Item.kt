@@ -1,4 +1,4 @@
-package com.jtmcompany.data.data.entity.response.remote
+package com.jtmcompany.data.model.response.remote
 
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Xml

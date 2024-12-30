@@ -39,7 +39,6 @@ abstract class BaseFragment<B: ViewDataBinding, VM: BaseViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return binding.root
     }

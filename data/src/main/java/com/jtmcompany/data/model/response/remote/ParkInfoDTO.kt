@@ -1,7 +1,7 @@
-package com.jtmcompany.data.data.response
+package com.jtmcompany.data.model.response.remote
 
-import com.jtmcompany.data.data.entity.response.remote.Body
-import com.jtmcompany.data.data.entity.response.remote.Header
+import com.jtmcompany.data.model.response.remote.Body
+import com.jtmcompany.data.model.response.remote.Header
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.Xml
 

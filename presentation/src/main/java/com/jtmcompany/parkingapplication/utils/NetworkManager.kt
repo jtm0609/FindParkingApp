@@ -12,7 +12,6 @@ import javax.inject.Singleton
 class NetworkManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-
     fun checkNetworkState(): Boolean {
 
         val connectivityManager =

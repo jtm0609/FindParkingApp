@@ -7,7 +7,7 @@ import com.jtmcompany.data.datasource.remote.ParkRemoteDataSource
 import com.jtmcompany.data.mapper.toDataModel
 import com.jtmcompany.data.mapper.toDomainModel
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.repository.ParkRepository
+import com.jtmcompany.domain.repository.ParkRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import javax.inject.Inject
@@ -27,9 +27,7 @@ class ParkRepositoryImpl @Inject constructor(
 
     override fun getRemoteParkInfo(numOfRows: Int): Flowable<List<ParkInfo>> {
 
-        return parkRemoteDataSource.getParkInfo(numOfRows).toFlowable().doOnNext {
-            // API 호출이 성공한 경우 데이터를 출력합니다.
-                response ->
+        return parkRemoteDataSource.getParkInfo(numOfRows).toFlowable().doOnNext { response ->
             Log.d("tak", "response: $response")
         }.map {
             it.toDomainModel()
@@ -37,10 +35,10 @@ class ParkRepositoryImpl @Inject constructor(
     }
 
     override fun insertPark(parks: List<ParkInfo>): Completable {
-        return with(parkLocalDataSource){
+        return with(parkLocalDataSource) {
             deleteParks().andThen(
                 insertParks(
-                    parks.map{it.toDataModel()}
+                    parks.map { it.toDataModel() }
                 )
             )
         }
@@ -57,7 +55,7 @@ class ParkRepositoryImpl @Inject constructor(
     //DB에서 주차장 정보 가져오기
     override fun getLocalParkInfo(): Flowable<List<ParkInfo>> {
         return parkLocalDataSource.getAllParks().toFlowable().map {
-            it.map { parkEntity ->  parkEntity.toDomainModel()}
+            it.map { parkEntity -> parkEntity.toDomainModel() }
         }
     }
 }

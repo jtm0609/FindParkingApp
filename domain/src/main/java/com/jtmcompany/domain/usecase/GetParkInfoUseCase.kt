@@ -1,7 +1,7 @@
 package com.jtmcompany.domain.usecase
 
 import com.jtmcompany.domain.model.ParkInfo
-import com.jtmcompany.repository.ParkRepository
+import com.jtmcompany.domain.repository.ParkRepository
 import io.reactivex.Flowable
 import javax.inject.Inject
 
