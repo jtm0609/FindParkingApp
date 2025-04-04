@@ -71,3 +71,4 @@
 👉 [앱 아키텍처 가이드(3) - Data Layer](https://jtm0609.tistory.com/4)   
 👉 [앱 아키텍처 가이드(4) - Domain Layer](https://jtm0609.tistory.com/5)   
 👉 [Clean Architecture 개념](https://jtm0609.tistory.com/6)   
+👉 [Clean Architecture vs Google의 앱 아키텍처](https://jtm0609.tistory.com/325)   
